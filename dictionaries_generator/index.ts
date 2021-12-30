@@ -82,20 +82,20 @@ async function main() {
 
 main()
 
-const LETTER_BLACKLIST = [
-	'1234567890- \'"’.',
-	'₁₂₃₄₅₆₇₈₉₀₊₋₌₍₎',
-	'⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾',
-	'ᴬᴭᴮᴯᴰᴱᴲᴳᴴᴵᴶᴷᴸᴹᴺᴻᴼᴽᴾᴿᵀᵁᵂᵃᵄᵅᵆᵇᵈᵉᵊᵋᵌᵍᵎᵏᵐᵑᵒᵓᵔᵕᵖᵗᵘᵙᵚᵛᵜ',
-]
-	.join('')
-	.split('')
+const LETTER_BLACKLIST = new RegExp(
+	'[' +
+		'1234567890\\- \'"’.' +
+		'₁₂₃₄₅₆₇₈₉₀₊₋₌₍₎' +
+		'⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾' +
+		'ᴬᴭᴮᴯᴰᴱᴲᴳᴴᴵᴶᴷᴸᴹᴺᴻᴼᴽᴾᴿᵀᵁᵂᵃᵄᵅᵆᵇᵈᵉᵊᵋᵌᵍᵎᵏᵐᵑᵒᵓᵔᵕᵖᵗᵘᵙᵚᵛᵜ' +
+		']'
+)
 
 function filterWord(word: string): boolean {
 	if (word.length !== FILTER_WORD_LENGTH) {
 		return false
 	}
-	if (LETTER_BLACKLIST.includes(word)) {
+	if (LETTER_BLACKLIST.test(word)) {
 		return false
 	}
 	return true
