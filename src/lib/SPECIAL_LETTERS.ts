@@ -1,0 +1,6 @@
+enum SPECIAL_LETTERS {
+	ENTER,
+	BACKSPACE,
+}
+
+export default SPECIAL_LETTERS

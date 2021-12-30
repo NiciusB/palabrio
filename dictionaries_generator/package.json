@@ -1,0 +1,15 @@
+{
+	"name": "dictionaries_generator",
+	"version": "1.0.0",
+	"scripts": {
+		"build": "ts-node index.ts",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"fs-extra": "^10.0.0",
+		"yargs": "^17.3.1",
+		"dictionaries": "https://github.com/wooorm/dictionaries",
+		"hunspell-reader": "^5.14.0",
+		"ts-node": "^10.4.0"
+	}
+}
