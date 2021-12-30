@@ -1,5 +1,9 @@
 {
-  "compilerOptions": {
-    "esModuleInterop": true
-  }
+	"compilerOptions": {
+		"target": "ESNext",
+		"moduleResolution": "node",
+		"esModuleInterop": true
+	},
+	"include": ["src"],
+	"exclude": ["node_modules", "**/__tests__/*"]
 }
