@@ -9,5 +9,5 @@
 </script>
 
 {#if Icon}
-	<Icon {width} />
+	<svelte:component this={Icon} {width} />
 {/if}
