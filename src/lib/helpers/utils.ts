@@ -9,3 +9,14 @@ export function convertWritableToReadable<T>(
 ): Readable<T> {
 	return { subscribe: writable.subscribe }
 }
+
+export function normalizeWord(string: string): string {
+	return (
+		string
+			.toLowerCase()
+			.normalize('NFD')
+			// Remove all diactritic, except the tilde from ñ
+			.replace(/(?![\u0303])[\u0300-\u036f]/g, '')
+			.normalize('NFC')
+	)
+}

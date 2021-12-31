@@ -2,7 +2,7 @@ import { writable, get, derived } from 'svelte/store'
 import type { Writable } from 'svelte/store'
 import WordStore from '~/lib/stores/WordStore'
 import languageNames from '~/lib/helpers/languageNames.json'
-import { convertWritableToReadable } from '~/lib/helpers/utils'
+import { convertWritableToReadable, normalizeWord } from '~/lib/helpers/utils'
 
 const dictionariesImport = import.meta.glob('../../dictionaries/*.json') // Does not support alias for now: https://github.com/vitejs/vite/issues/5717
 
@@ -65,14 +65,3 @@ const LanguageStore = {
 	getLanguageName,
 }
 export default LanguageStore
-
-function normalizeWord(string: string): string {
-	return (
-		string
-			.toLowerCase()
-			.normalize('NFD')
-			// Remove all diactritic, except the tilde from ñ
-			.replace(/(?![\u0303])[\u0300-\u036f]/g, '')
-			.normalize('NFC')
-	)
-}
