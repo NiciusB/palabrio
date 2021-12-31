@@ -1,0 +1,8 @@
+{
+	"alert.words_need_to_have_n_letters": "Words are {n} letters",
+	"alert.word_not_in_our_list": "Word not found in our list",
+	"game_finished.won": "Game won",
+	"game_finished.lost": "Game lost",
+	"game_finished.the_word_was_x": "The word was: {x}",
+	"game_finished.play_again": "Play again"
+}

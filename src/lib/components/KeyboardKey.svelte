@@ -1,45 +1,39 @@
 <script lang="ts">
 	import Icon from '~/lib/components/Icon.svelte'
-	import WordManager from '~/lib/WordManager'
-	import SPECIAL_LETTERS from '~/lib/SPECIAL_LETTERS'
-	import { getLetterAbsoluteGuessState } from '~/lib/getLetterGuessState'
-	import LETTER_GUESS_STATES from '~/lib/LETTER_GUESS_STATES'
+	import WordStore from '~/lib/stores/WordStore'
+	import { getLetterAbsoluteGuessState } from '~/lib/helpers/getLetterGuessState'
+	import LETTER_GUESS_STATES from '~/lib/enums/LETTER_GUESS_STATES'
+	import { readable } from 'svelte/store'
+	import SPECIAL_LETTERS from '~/lib/enums/SPECIAL_LETTERS'
 
 	export let letter: string | SPECIAL_LETTERS
 
-	let guessState: LETTER_GUESS_STATES
-	function updateGuessState() {
-		guessState =
-			typeof letter === 'string'
-				? getLetterAbsoluteGuessState(letter)
-				: LETTER_GUESS_STATES.NOT_REVEALED
-	}
-	WordManager.pastGuesses.subscribe(updateGuessState)
-	updateGuessState()
+	const guessState =
+		typeof letter === 'string'
+			? getLetterAbsoluteGuessState(letter)
+			: readable(LETTER_GUESS_STATES.NOT_REVEALED)
 
 	$: stateClass = {
 		[LETTER_GUESS_STATES.NOT_REVEALED]: 'not-revealed',
 		[LETTER_GUESS_STATES.REVEALED_CORRECT]: 'revealed-correct',
 		[LETTER_GUESS_STATES.REVEALED_INCORRECT_PLACE]: 'revealed-incorrect-place',
 		[LETTER_GUESS_STATES.REVEALED_NO_MATCH]: 'revealed-no-match',
-	}[guessState]
+	}[$guessState]
 </script>
 
 {#if letter === SPECIAL_LETTERS.ENTER}
-	<button class={stateClass} on:click={() => WordManager.submitGuess()}
+	<button class={stateClass} on:click={() => WordStore.submitGuess()}
 		>Enter</button
 	>
 {:else if letter === SPECIAL_LETTERS.BACKSPACE}
-	<button
-		class={stateClass}
-		on:click={() => WordManager.removeLastLetterGuess()}
+	<button class={stateClass} on:click={() => WordStore.removeLastLetterGuess()}
 		><Icon icon="backspace" width={24} /></button
 	>
 {:else}
 	<button
 		class={stateClass}
 		on:click={() =>
-			typeof letter === 'string' && WordManager.addLetterToGuess(letter)}
+			typeof letter === 'string' && WordStore.addLetterToGuess(letter)}
 		>{letter}</button
 	>
 {/if}
@@ -59,6 +53,7 @@
 		text-transform: uppercase;
 		-webkit-tap-highlight-color: rgba(0, 0, 0, 0.3);
 		color: var(--key-text-color);
+		transition: background-color ease 300ms, outline ease 300ms;
 
 		&.not-revealed {
 			background: var(--key-bg);

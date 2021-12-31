@@ -2,6 +2,7 @@
 	"name": "palabrio",
 	"version": "0.0.0",
 	"type": "module",
+	"license": "MIT",
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
@@ -22,7 +23,8 @@
 		"vite": "^2.7.2"
 	},
 	"dependencies": {
-		"normalize.css": "^8.0.1"
+		"normalize.css": "^8.0.1",
+		"svelte-i18n": "^3.3.13"
 	},
 	"imports": {
 		"~/*": "./src/*.ts"

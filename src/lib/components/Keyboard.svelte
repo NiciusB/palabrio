@@ -1,12 +1,12 @@
 <script lang="ts">
-	import LanguageManager from '~/lib/LanguageManager'
+	import LanguageStore from '~/lib/stores/LanguageStore'
 	import { get } from 'svelte/store'
 	import KeyboardKey from '~/lib/components/KeyboardKey.svelte'
-	import SPECIAL_LETTERS from '~/lib/SPECIAL_LETTERS'
+	import SPECIAL_LETTERS from '~/lib/enums/SPECIAL_LETTERS'
 
 	let keyboardRows: Array<SPECIAL_LETTERS | string>[] = []
 
-	LanguageManager.keyboardLetters.subscribe((value) => {
+	LanguageStore.keyboardLetters.subscribe((value) => {
 		const DEFAULT_ORDER = [
 			'qwertyuiopđasdfghjklñæzxcvbnm',
 			'קראטוןםפשדגכעיחלךףזסבהנמצתץ',
@@ -50,7 +50,7 @@
 	})
 
 	function calculateLettersPerRow(rowIndex: number) {
-		switch (get(LanguageManager.dictionaryLanguage)) {
+		switch (get(LanguageStore.dictionaryLanguage)) {
 			case 'es':
 				return 9
 			default:
@@ -75,8 +75,9 @@
 		flex-direction: column;
 		gap: 0.3rem;
 		margin: 0.5rem 0;
-		width: 90vw;
-		max-width: 768px;
+		width: 92vw;
+		max-width: 100%;
+		touch-action: manipulation;
 	}
 
 	.row {

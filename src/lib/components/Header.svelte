@@ -1,20 +1,20 @@
 <script lang="ts">
-	import LanguageManager from '~/lib/LanguageManager'
+	import LanguageStore from '~/lib/stores/LanguageStore'
 
-	$: lang = LanguageManager.dictionaryLanguage
+	$: lang = LanguageStore.dictionaryLanguage
 </script>
 
 <header>
-	Palabrio
+	<h1>Palabrio</h1>
 
 	<select
 		value={$lang}
 		on:change={(e) =>
-			LanguageManager.setDictionaryLanguage(e.currentTarget.value)}
+			LanguageStore.setDictionaryLanguage(e.currentTarget.value)}
 	>
-		{#each LanguageManager.dictionaryLanguagesList as code}
+		{#each LanguageStore.dictionaryLanguagesList as code}
 			<option value={code}>
-				{LanguageManager.getLanguageName(code)}
+				{LanguageStore.getLanguageName(code)}
 			</option>
 		{/each}
 	</select>
@@ -24,6 +24,28 @@
 	header {
 		text-align: center;
 		padding: 1em;
-		margin: 0 auto;
+		padding-inline-start: 2rem;
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	h1 {
+		font-size: 48px;
+		font-weight: 800;
+		color: white;
+		background: linear-gradient(45deg, #12c2e9, #c471ed, #f64f59);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		margin: 0;
+	}
+
+	select {
+		float: right;
+		width: 6rem;
 	}
 </style>
