@@ -1,6 +1,10 @@
 import { writable, get } from 'svelte/store'
 import LanguageStore from '~/lib/stores/LanguageStore'
-import { convertWritableToReadable, randomFromArray } from '~/lib/helpers/utils'
+import {
+	convertWritableToReadable,
+	normalizeWord,
+	randomFromArray,
+} from '~/lib/helpers/utils'
 import AlertStore from '~/lib/ui/alerts/stores/AlertStore'
 import { $_ } from '~/lib/i18n'
 import GAME_STATES from '~/lib/enums/GAME_STATES'
@@ -45,7 +49,8 @@ function submitGuess() {
 	pastGuesses.set([...get(pastGuesses), get(guess)])
 	guess.set('')
 
-	if (get(pastGuesses)[get(pastGuesses).length - 1] === get(word)) {
+	const lastGuess = get(pastGuesses)[get(pastGuesses).length - 1]
+	if (normalizeWord(lastGuess) === normalizeWord(get(word))) {
 		gameState.set(GAME_STATES.WON)
 	} else if (get(pastGuesses).length >= maxGuesses) {
 		gameState.set(GAME_STATES.LOST)
