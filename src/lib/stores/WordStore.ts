@@ -6,7 +6,7 @@ import {
 	randomFromArray,
 } from '~/lib/helpers/utils'
 import AlertStore from '~/lib/ui/alerts/stores/AlertStore'
-import { $_ } from '~/lib/i18n'
+import { $_ } from '~/lib/helpers/i18n'
 import GAME_STATES from '~/lib/enums/GAME_STATES'
 import { COLUMNS, gameState, ROWS } from '~/lib/stores/GameStore'
 

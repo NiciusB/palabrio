@@ -4,7 +4,7 @@
 	import MainScreen from '~/lib/components/MainScreen.svelte'
 	import setGlobalCssVariables from '~/lib/helpers/setGlobalCssVariables'
 	import setupKeyboardListener from '~/lib/helpers/setupKeyboardListener'
-	import '~/lib/i18n'
+	import '~/lib/helpers/i18n'
 
 	setupKeyboardListener()
 	setGlobalCssVariables()
