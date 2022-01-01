@@ -40,4 +40,5 @@ h3 {
 *::after,
 *::before {
 	box-sizing: border-box;
+	user-select: inherit;
 }

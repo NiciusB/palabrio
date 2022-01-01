@@ -78,6 +78,7 @@
 		width: 92vw;
 		max-width: 100%;
 		touch-action: manipulation;
+		user-select: none;
 	}
 
 	.row {

@@ -5,6 +5,7 @@
 	import LETTER_GUESS_STATES from '~/lib/enums/LETTER_GUESS_STATES'
 	import { readable } from 'svelte/store'
 	import SPECIAL_LETTERS from '~/lib/enums/SPECIAL_LETTERS'
+	import longpress from '~/lib/actions/longPress'
 
 	export let letter: string | SPECIAL_LETTERS
 
@@ -19,24 +20,36 @@
 		[LETTER_GUESS_STATES.REVEALED_INCORRECT_PLACE]: 'revealed-incorrect-place',
 		[LETTER_GUESS_STATES.REVEALED_NO_MATCH]: 'revealed-no-match',
 	}[$guessState]
+
+	function buttonPressed() {
+		if (letter === SPECIAL_LETTERS.ENTER) {
+			WordStore.submitGuess()
+		} else if (letter === SPECIAL_LETTERS.BACKSPACE) {
+			WordStore.removeLastLetterGuess()
+		} else {
+			WordStore.addLetterToGuess(letter)
+		}
+	}
 </script>
 
-{#if letter === SPECIAL_LETTERS.ENTER}
-	<button class={stateClass} on:click={() => WordStore.submitGuess()}
-		>Enter</button
-	>
-{:else if letter === SPECIAL_LETTERS.BACKSPACE}
-	<button class={stateClass} on:click={() => WordStore.removeLastLetterGuess()}
-		><Icon icon="backspace" width={24} /></button
-	>
-{:else}
-	<button
-		class={stateClass}
-		on:click={() =>
-			typeof letter === 'string' && WordStore.addLetterToGuess(letter)}
-		>{letter}</button
-	>
-{/if}
+<button
+	class={stateClass}
+	on:contextmenu|stopPropagation
+	use:longpress={{
+		timeoutMs: letter === SPECIAL_LETTERS.BACKSPACE ? 500 : 0,
+		repeatMs: letter === SPECIAL_LETTERS.BACKSPACE ? 200 : 0,
+		fireInmediatly: true,
+	}}
+	on:longpress={buttonPressed}
+>
+	{#if letter === SPECIAL_LETTERS.ENTER}
+		Enter
+	{:else if letter === SPECIAL_LETTERS.BACKSPACE}
+		<Icon icon="backspace" width={24} />
+	{:else}
+		{letter}
+	{/if}
+</button>
 
 <style lang="scss">
 	button {

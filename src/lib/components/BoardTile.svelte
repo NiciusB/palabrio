@@ -1,12 +1,39 @@
 <script lang="ts">
+	import { derived } from 'svelte/store'
 	import LETTER_GUESS_STATES from '~/lib/enums/LETTER_GUESS_STATES'
+	import { getLetterGuessStateFromGuess } from '~/lib/helpers/getLetterGuessState'
+	import WordStore from '~/lib/stores/WordStore'
 
-	export let letter: string = ''
-	export let state: LETTER_GUESS_STATES
+	export let column: number
+	export let row: number
+
+	const letter = derived(
+		[WordStore.pastGuesses, WordStore.guess],
+		([pastGuesses, guess]) => {
+			const isAlreadyGuessedRow = pastGuesses.length > row
+			const isRowWritingRow = pastGuesses.length === row
+
+			return (
+				(isRowWritingRow
+					? guess[column]
+					: isAlreadyGuessedRow
+					? pastGuesses[row][column]
+					: null) ?? ''
+			)
+		}
+	)
+
+	$: word = WordStore.word
+
+	const state = derived(WordStore.pastGuesses, (pastGuesses) =>
+		pastGuesses.length > row
+			? getLetterGuessStateFromGuess($word, $letter, column)
+			: LETTER_GUESS_STATES.NOT_REVEALED
+	)
 
 	let hadLetterPreviously = false
 	$: {
-		if (letter) hadLetterPreviously = true
+		if ($letter) hadLetterPreviously = true
 	}
 
 	$: stateClass = {
@@ -14,15 +41,17 @@
 		[LETTER_GUESS_STATES.REVEALED_CORRECT]: 'revealed-correct',
 		[LETTER_GUESS_STATES.REVEALED_INCORRECT_PLACE]: 'revealed-incorrect-place',
 		[LETTER_GUESS_STATES.REVEALED_NO_MATCH]: 'revealed-no-match',
-	}[state]
+	}[$state]
+
+	$: hasLetterClass = $letter
+		? 'has-letter'
+		: hadLetterPreviously
+		? 'has-no-letter'
+		: ''
 </script>
 
-<div
-	class={`${stateClass} ${
-		letter ? 'has-letter' : hadLetterPreviously ? 'has-no-letter' : ''
-	}`}
->
-	{letter}
+<div class={`${stateClass} ${hasLetterClass}`}>
+	{$letter}
 </div>
 
 <style lang="scss">

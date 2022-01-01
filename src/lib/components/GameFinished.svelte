@@ -2,6 +2,7 @@
 	import GAME_STATES from '~/lib/enums/GAME_STATES'
 	import WordStore from '~/lib/stores/WordStore'
 	import { _ } from 'svelte-i18n'
+	import { gameState } from '~/lib/stores/GameStore'
 
 	function animateOut(_: any, { delay = 0, duration = 360 }) {
 		return {
@@ -14,7 +15,6 @@
 		}
 	}
 
-	$: gameState = WordStore.gameState
 	$: word = WordStore.word
 </script>
 
