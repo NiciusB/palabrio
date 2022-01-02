@@ -8,34 +8,36 @@ export function getLetterGuessStateFromGuess(
 ): LETTER_GUESS_STATES {
 	word = normalizeWord(word)
 	guess = normalizeWord(guess)
-	const guessLetter = guess[letterPosition]
 
-	if (word[letterPosition] === guessLetter) {
+	if (word[letterPosition] === guess[letterPosition]) {
 		return LETTER_GUESS_STATES.REVEALED_CORRECT
 	}
 
-	if (!word.includes(guessLetter)) {
+	if (!word.includes(guess[letterPosition])) {
 		return LETTER_GUESS_STATES.REVEALED_NO_MATCH
 	}
 
-	const letterCountInWord = (word.match(new RegExp(guessLetter, 'g')) || [])
-		.length
-
-	const letterCountInGuess = (
-		guess.slice(0, letterPosition).match(new RegExp(guessLetter, 'g')) || []
+	const letterCountInWord = (
+		word.match(new RegExp(guess[letterPosition], 'g')) || []
 	).length
 
 	const correctLetterGuessesCount = [...guess]
 		.map(
-			(_, index) => guess[index] === word[index] && guess[index] === guessLetter
+			(_, index) =>
+				guess[index] === word[index] && guess[index] === guess[letterPosition]
 		)
 		.reduce((prev, curr) => prev + (curr ? 1 : 0), 0)
 
-	if (letterCountInWord <= correctLetterGuessesCount) {
-		return LETTER_GUESS_STATES.REVEALED_NO_MATCH
-	}
+	const letterCountInGuessBeforeThisLetter = (
+		guess
+			.slice(0, letterPosition)
+			.match(new RegExp(guess[letterPosition], 'g')) || []
+	).length
 
-	if (letterCountInWord <= letterCountInGuess) {
+	if (
+		letterCountInWord <= correctLetterGuessesCount ||
+		letterCountInWord <= letterCountInGuessBeforeThisLetter
+	) {
 		return LETTER_GUESS_STATES.REVEALED_NO_MATCH
 	}
 
@@ -57,16 +59,12 @@ export function getLetterAbsoluteGuessState(
 
 	for (const guess of pastGuesses) {
 		for (const letterPosition in guess.split('')) {
-			if (guess[letterPosition] === letter) {
-				if (
-					getLetterGuessStateFromGuess(
-						word,
-						guess,
-						parseInt(letterPosition)
-					) === LETTER_GUESS_STATES.REVEALED_CORRECT
-				) {
-					return LETTER_GUESS_STATES.REVEALED_CORRECT
-				}
+			if (
+				guess[letterPosition] === letter &&
+				getLetterGuessStateFromGuess(word, guess, parseInt(letterPosition)) ===
+					LETTER_GUESS_STATES.REVEALED_CORRECT
+			) {
+				return LETTER_GUESS_STATES.REVEALED_CORRECT
 			}
 		}
 	}

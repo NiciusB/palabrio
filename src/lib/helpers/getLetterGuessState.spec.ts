@@ -99,7 +99,7 @@ test('getLetterAbsoluteGuessState', () => {
 		LETTER_GUESS_STATES.REVEALED_CORRECT
 	)
 
-	expect(getLetterAbsoluteGuessState(['guess1', 'guess2'], 'guess2', '2')).toBe(
+	expect(getLetterAbsoluteGuessState(['2guess', 'guess2'], 'guess2', '2')).toBe(
 		LETTER_GUESS_STATES.REVEALED_CORRECT
 	)
 
