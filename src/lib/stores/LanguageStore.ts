@@ -14,7 +14,7 @@ const dictionariesList = Object.fromEntries(
 )
 const dictionaryLanguagesList = Object.keys(dictionariesList)
 
-const dictionaryLanguage: Writable<string | null> = writable(null)
+const dictionaryLanguage: Writable<string> = writable()
 const dictionaryArray: Writable<string[]> = writable([])
 const keyboardLetters: Writable<string[]> = writable([])
 

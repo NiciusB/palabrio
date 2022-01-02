@@ -20,3 +20,20 @@ export function normalizeWord(string: string): string {
 			.normalize('NFC')
 	)
 }
+
+export function isLanguageRTL(lang: string) {
+	return [
+		'ar',
+		'arc',
+		'dv',
+		'fa',
+		'ha',
+		'he',
+		'khw',
+		'ks',
+		'ku',
+		'ps',
+		'ur',
+		'yi',
+	].includes(lang)
+}

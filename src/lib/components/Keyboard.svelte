@@ -3,6 +3,7 @@
 	import { get } from 'svelte/store'
 	import KeyboardKey from '~/lib/components/KeyboardKey.svelte'
 	import SPECIAL_LETTERS from '~/lib/enums/SPECIAL_LETTERS'
+	import { isLanguageRTL } from '~/lib/helpers/utils'
 
 	let keyboardRows: Array<SPECIAL_LETTERS | string>[] = []
 
@@ -57,6 +58,8 @@
 				return rowIndex % 2 === 0 ? 9 : 8
 		}
 	}
+
+	$: lang = LanguageStore.dictionaryLanguage
 </script>
 
 <aside>
