@@ -49,7 +49,7 @@
 		overscroll-behavior: contain;
 		background-color: var(--alert-bg);
 		color: var(--alert-text-color);
-		padding: 1rem;
+		padding: 2rem;
 		border-radius: 0.2rem;
 		text-align: center;
 		font-size: 1.2rem;

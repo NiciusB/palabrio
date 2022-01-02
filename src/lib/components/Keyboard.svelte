@@ -29,9 +29,6 @@
 			}
 		)
 
-		sortedLetters.push(SPECIAL_LETTERS.ENTER)
-		sortedLetters.push(SPECIAL_LETTERS.BACKSPACE)
-
 		keyboardRows = []
 
 		let rowIndex = 0
@@ -47,6 +44,11 @@
 
 			keyboardRows[rowIndex] = keyboardRows[rowIndex] ?? []
 			keyboardRows[rowIndex].push(sortedLetters[letterIndex])
+		}
+
+		if (keyboardRows.length) {
+			keyboardRows[0].push(SPECIAL_LETTERS.BACKSPACE)
+			keyboardRows[keyboardRows.length - 1].push(SPECIAL_LETTERS.ENTER)
 		}
 	})
 
@@ -72,13 +74,13 @@
 	{/each}
 </aside>
 
-<style>
+<style lang="scss">
 	aside {
 		display: flex;
 		flex-direction: column;
 		gap: 0.3rem;
 		margin: 0.5rem 0;
-		width: 92vw;
+		width: calc(100vw - 0.4rem);
 		max-width: 100%;
 		touch-action: manipulation;
 		user-select: none;

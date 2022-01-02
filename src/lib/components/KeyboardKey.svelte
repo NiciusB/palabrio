@@ -6,6 +6,7 @@
 	import { derived } from 'svelte/store'
 	import SPECIAL_LETTERS from '~/lib/enums/SPECIAL_LETTERS'
 	import longpress from '~/lib/actions/longPress'
+	import { _ } from '~/lib/helpers/i18n'
 
 	export let letter: string | SPECIAL_LETTERS
 
@@ -36,28 +37,38 @@
 	}
 </script>
 
-<button
-	class={stateClass}
-	on:contextmenu|stopPropagation
-	use:longpress={{
-		timeoutMs: letter === SPECIAL_LETTERS.BACKSPACE ? 500 : 0,
-		repeatMs: letter === SPECIAL_LETTERS.BACKSPACE ? 200 : 0,
-		fireInmediatly: true,
-	}}
-	on:longpress={buttonPressed}
->
-	{#if letter === SPECIAL_LETTERS.ENTER}
-		Enter
-	{:else if letter === SPECIAL_LETTERS.BACKSPACE}
+{#if letter === SPECIAL_LETTERS.BACKSPACE}
+	<button
+		class={stateClass}
+		on:contextmenu|stopPropagation
+		use:longpress={{
+			timeoutMs: letter === SPECIAL_LETTERS.BACKSPACE ? 500 : 0,
+			repeatMs: letter === SPECIAL_LETTERS.BACKSPACE ? 200 : 0,
+			fireInmediatly: true,
+		}}
+		on:longpress={buttonPressed}
+		title={$_('keyboard_key.backspace')}
+	>
 		<Icon icon="backspace" width={24} />
-	{:else}
-		{letter}
-	{/if}
-</button>
+	</button>
+{:else}
+	<button
+		class={stateClass}
+		on:contextmenu|stopPropagation
+		on:click={buttonPressed}
+		title={letter === SPECIAL_LETTERS.ENTER ? $_('keyboard_key.enter') : null}
+	>
+		{#if letter === SPECIAL_LETTERS.ENTER}
+			<Icon icon="enter" width={24} />
+		{:else}
+			{letter}
+		{/if}
+	</button>
+{/if}
 
 <style lang="scss">
 	button {
-		flex-grow: 1;
+		flex: 1 1 0px;
 		font-weight: bold;
 		border: 0;
 		padding: 1rem 0.3rem;
@@ -71,21 +82,23 @@
 		-webkit-tap-highlight-color: rgba(0, 0, 0, 0.3);
 		color: var(--key-text-color);
 		transition: background-color ease 300ms, outline ease 300ms;
+		will-change: background-color;
+		transform: translateZ(0);
 
 		&.not-revealed {
-			background: var(--key-bg);
+			background-color: var(--key-bg);
 		}
 
 		&.revealed-correct {
-			background: var(--tile-bg-correct);
+			background-color: var(--tile-bg-correct);
 		}
 
 		&.revealed-incorrect-place {
-			background: var(--tile-bg-incorrect-place);
+			background-color: var(--tile-bg-incorrect-place);
 		}
 
 		&.revealed-no-match {
-			background: var(--key-no-match-bg);
+			background-color: var(--key-no-match-bg);
 		}
 	}
 </style>

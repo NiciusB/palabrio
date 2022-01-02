@@ -12,7 +12,8 @@
 </script>
 
 <div class="container">
-	<article
+	<div
+		class="board"
 		dir={isLanguageRTL($lang) ? 'rtl' : 'ltr'}
 		style="--num-columns: {$COLUMNS};"
 	>
@@ -21,7 +22,7 @@
 				<BoardTile {row} {column} />
 			{/each}
 		{/each}
-	</article>
+	</div>
 	<Alerts />
 	<GameFinishedModal />
 </div>
@@ -31,7 +32,7 @@
 		position: relative;
 	}
 
-	article {
+	.board {
 		display: grid;
 		grid-template-columns: repeat(var(--num-columns), 1fr);
 		gap: 0.5rem;
