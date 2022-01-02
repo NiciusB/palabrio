@@ -18,7 +18,7 @@ Object.keys(languagesList).forEach((lang) => {
 	register(lang, languagesList[lang])
 })
 
-init({
+export const i18nInitialLoadProimse = init({
 	fallbackLocale: 'en',
 	initialLocale: getLocaleFromNavigator(),
 })

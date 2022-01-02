@@ -5,6 +5,7 @@
 	import setGlobalCssVariables from '~/lib/helpers/setGlobalCssVariables'
 	import setupKeyboardListener from '~/lib/helpers/setupKeyboardListener'
 	import '~/lib/helpers/i18n'
+	import 'share-api-polyfill'
 
 	setupKeyboardListener()
 	setGlobalCssVariables()

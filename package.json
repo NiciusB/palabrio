@@ -36,6 +36,7 @@
 		"autoprefixer": "^10.4.1",
 		"babel-jest": "^27.4.5",
 		"normalize.css": "^8.0.1",
+		"share-api-polyfill": "^1.0.21",
 		"svelte-i18n": "^3.3.13"
 	},
 	"imports": {

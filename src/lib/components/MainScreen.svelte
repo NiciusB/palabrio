@@ -2,12 +2,19 @@
 	import Board from '~/lib/components/Board.svelte'
 	import Header from '~/lib/components/Header.svelte'
 	import Keyboard from '~/lib/components/Keyboard.svelte'
+	import { i18nInitialLoadProimse } from '~/lib/helpers/i18n'
 </script>
 
 <main>
-	<Header />
-	<Board />
-	<Keyboard />
+	{#await i18nInitialLoadProimse}
+		<!-- loading  -->
+	{:then}
+		<Header />
+		<Board />
+		<Keyboard />
+	{:catch error}
+		<p style="color: red">{error.message}</p>
+	{/await}
 </main>
 
 <style>

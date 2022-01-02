@@ -4,5 +4,6 @@
 	"game_finished.won": "Game won",
 	"game_finished.lost": "Game lost",
 	"game_finished.the_word_was_x": "The word was: {x}",
+	"game_finished.share": "Share",
 	"game_finished.play_again": "Play again"
 }

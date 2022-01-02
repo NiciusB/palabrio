@@ -4,5 +4,6 @@
 	"game_finished.won": "¡Has ganado!",
 	"game_finished.lost": "¡Has perdido!",
 	"game_finished.the_word_was_x": "La palabra era: {x}",
+	"game_finished.share": "Compartir",
 	"game_finished.play_again": "Jugar de nuevo"
 }
