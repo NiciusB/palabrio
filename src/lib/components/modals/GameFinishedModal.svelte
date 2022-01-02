@@ -6,17 +6,7 @@
 	import { get } from 'svelte/store'
 	import { getLetterGuessStateFromGuess } from '~/lib/helpers/getLetterGuessState'
 	import LETTER_GUESS_STATES from '~/lib/enums/LETTER_GUESS_STATES'
-
-	function animateOut(_: any, { delay = 0, duration = 360 }) {
-		return {
-			delay,
-			duration,
-			css: (t: number) =>
-				`opacity: ${t}; transform: translate(-50%, -50%) scale(${
-					t * 0.2 + 0.8
-				});`,
-		}
-	}
+	import Modal from '~/lib/components/modals/Modal.svelte'
 
 	function sharePressed() {
 		const word = get(WordStore.word)
@@ -57,13 +47,7 @@
 </script>
 
 {#if $gameState !== GAME_STATES.IN_PROGRESS}
-	<div
-		class="container"
-		role="alert"
-		aria-live="assertive"
-		aria-atomic="true"
-		out:animateOut
-	>
+	<Modal>
 		<h2>
 			{$_(
 				$gameState === GAME_STATES.WON
@@ -74,62 +58,12 @@
 
 		<p>{$_('game_finished.the_word_was_x', { values: { x: $word } })}</p>
 
-		<button class="outline" on:click={sharePressed}
+		<button class="btn btn-outline" on:click={sharePressed}
 			>{$_('game_finished.share')}</button
 		>
 
-		<button class="fill" on:click={WordStore.generateWord}
+		<button class="btn btn-fill" on:click={WordStore.generateWord}
 			>{$_('game_finished.play_again')}</button
 		>
-	</div>
+	</Modal>
 {/if}
-
-<style lang="scss">
-	.container {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		animation: animate-in 360ms forwards;
-		background-color: var(--alert-bg);
-		color: var(--alert-text-color);
-		padding: 1rem;
-		min-width: 70%;
-		border-radius: 0.2rem;
-		text-align: center;
-		font-size: 1.2rem;
-		backdrop-filter: blur(1px);
-	}
-
-	button {
-		padding: 0.5rem 1rem;
-		border-radius: 0.2rem;
-		cursor: pointer;
-
-		&:not(:last-child) {
-			margin-block-end: 1rem;
-		}
-
-		&.outline {
-			background: transparent;
-			color: var(--key-no-match-bg);
-			border: 1px solid var(--key-no-match-bg);
-		}
-
-		&.fill {
-			color: var(--key-text-color);
-			background: var(--key-no-match-bg);
-			border: 0;
-		}
-	}
-
-	@keyframes animate-in {
-		0% {
-			opacity: 0;
-			transform: translate(-50%, -50%) scale(0.8);
-		}
-		100% {
-			opacity: 1;
-		}
-	}
-</style>

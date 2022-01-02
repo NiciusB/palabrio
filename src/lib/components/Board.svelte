@@ -1,7 +1,7 @@
 <script lang="ts">
 	import BoardTile from '~/lib/components/BoardTile.svelte'
 	import Alerts from '~/lib/ui/alerts/components/Alerts.svelte'
-	import GameFinished from '~/lib/components/GameFinished.svelte'
+	import GameFinishedModal from '~/lib/components/modals/GameFinishedModal.svelte'
 	import { ROWS, COLUMNS } from '~/lib/stores/GameStore'
 	import { isLanguageRTL } from '~/lib/helpers/utils'
 	import LanguageStore from '~/lib/stores/LanguageStore'
@@ -23,7 +23,7 @@
 		{/each}
 	</article>
 	<Alerts />
-	<GameFinished />
+	<GameFinishedModal />
 </div>
 
 <style>

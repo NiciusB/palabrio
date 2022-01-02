@@ -1,6 +1,6 @@
 <script lang="ts">
 	import 'normalize.css'
-	import '~/assets/css/global.css'
+	import '~/assets/css/global.scss'
 	import MainScreen from '~/lib/components/MainScreen.svelte'
 	import setGlobalCssVariables from '~/lib/helpers/setGlobalCssVariables'
 	import setupKeyboardListener from '~/lib/helpers/setupKeyboardListener'
