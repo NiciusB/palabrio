@@ -2,7 +2,7 @@ import { isFunctionNative } from '~/lib/helpers/utils'
 import GAME_STATES from '~/lib/enums/GAME_STATES'
 import WordStore from '~/lib/stores/WordStore'
 import { COLUMNS, gameState, ROWS } from '~/lib/stores/GameStore'
-import { _ } from '~/lib/helpers/i18n'
+import { $_ } from '~/lib/helpers/i18n'
 import { get } from 'svelte/store'
 import { getLetterGuessStateFromGuess } from '~/lib/helpers/getLetterGuessState'
 import LETTER_GUESS_STATES from '~/lib/enums/LETTER_GUESS_STATES'
@@ -26,14 +26,17 @@ export default function shareGameResult() {
 		return result
 	}
 
-	const tries =
-		get(gameState) === GAME_STATES.WON
-			? `${pastGuesses.length}/${get(ROWS)}`
-			: `X/${get(ROWS)}`
-
 	const board = pastGuesses.map((guess) => guessToEmojis(guess)).join('\n')
 
-	const text = `Palabrio ${tries}\n${board}\n${window.location.href}`
+	const text = `${
+		get(gameState) === GAME_STATES.WON
+			? $_('share_game_results.i_guessed_word_in_n_tries', {
+					values: { word, n: pastGuesses.length },
+			  })
+			: $_('share_game_results.i_couldnt_guess_word', {
+					values: { word },
+			  })
+	}\n${board}\n${window.location.href}`
 
 	navigator.share({
 		title: 'Palabrio',

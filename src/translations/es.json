@@ -15,5 +15,7 @@
 	"help_modal.the_letter_x_is_not_in_the_word": "La letra {x} no está en la palabra.",
 	"help_modal.palabrio_is_a_clone": "Palabrio es un clon de {clonedName}, creado porque el original solo tenía palabras Inglesas disponibles.",
 	"keyboard_key.backspace": "Retroceso",
-	"keyboard_key.enter": "Entrar"
+	"keyboard_key.enter": "Entrar",
+	"share_game_results.i_guessed_word_in_n_tries": "Adiviné {word} en {n} intentos",
+	"share_game_results.i_couldnt_guess_word": "No pude adivinar {word}"
 }
