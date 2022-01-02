@@ -37,3 +37,7 @@ export function isLanguageRTL(lang: string) {
 		'yi',
 	].includes(lang)
 }
+
+export function isFunctionNative(fn: Function) {
+	return /\{\s+\[native code\]/.test(Function.prototype.toString.call(fn))
+}
