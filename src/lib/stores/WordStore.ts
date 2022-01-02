@@ -11,6 +11,8 @@ import GAME_STATES from '~/lib/enums/GAME_STATES'
 import { COLUMNS, gameState, ROWS } from '~/lib/stores/GameStore'
 
 const word = writable('')
+const guess = writable('')
+const pastGuesses = writable([] as string[])
 
 function generateWord() {
 	const newWord = randomFromArray(get(LanguageStore.dictionaryArray))
@@ -20,9 +22,6 @@ function generateWord() {
 	word.set(newWord)
 	gameState.set(GAME_STATES.IN_PROGRESS)
 }
-
-const guess = writable('')
-const pastGuesses = writable([] as string[])
 
 function submitGuess() {
 	const maxGuessLength = get(COLUMNS)

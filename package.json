@@ -8,23 +8,33 @@
 		"dev": "vite --host",
 		"build": "vite build",
 		"preview": "vite preview",
-		"check": "svelte-check --tsconfig ./tsconfig.json"
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"test": "NODE_OPTIONS='--experimental-vm-modules' jest"
 	},
 	"devDependencies": {
+		"@babel/preset-env": "^7.16.7",
+		"@babel/preset-typescript": "^7.16.7",
 		"@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
 		"@tsconfig/svelte": "^2.0.1",
+		"@types/jest": "^27.4.0",
+		"babel-plugin-module-resolver": "^4.1.0",
+		"babel-plugin-transform-vite-meta-glob": "^1.0.3",
+		"jest": "^27.4.5",
 		"node-sass": "^7.0.1",
 		"rollup-plugin-svelte-svg": "^1.0.0-beta.6",
 		"sass": "^1.45.1",
 		"svelte": "^3.44.0",
 		"svelte-check": "^2.2.7",
-		"svelte-preprocess": "^4.9.8",
+		"svelte-jester": "^2.1.5",
+		"svelte-preprocess": "^4.10.1",
 		"tslib": "^2.3.1",
-		"typescript": "^4.4.4",
+		"typescript": "^4.5.4",
 		"vite": "^2.7.2"
 	},
 	"dependencies": {
+		"@testing-library/jest-dom": "^5.16.1",
 		"autoprefixer": "^10.4.1",
+		"babel-jest": "^27.4.5",
 		"normalize.css": "^8.0.1",
 		"svelte-i18n": "^3.3.13"
 	},

@@ -3,16 +3,20 @@
 	import WordStore from '~/lib/stores/WordStore'
 	import { getLetterAbsoluteGuessState } from '~/lib/helpers/getLetterGuessState'
 	import LETTER_GUESS_STATES from '~/lib/enums/LETTER_GUESS_STATES'
-	import { readable } from 'svelte/store'
+	import { derived } from 'svelte/store'
 	import SPECIAL_LETTERS from '~/lib/enums/SPECIAL_LETTERS'
 	import longpress from '~/lib/actions/longPress'
 
 	export let letter: string | SPECIAL_LETTERS
 
-	const guessState =
-		typeof letter === 'string'
-			? getLetterAbsoluteGuessState(letter)
-			: readable(LETTER_GUESS_STATES.NOT_REVEALED)
+	const guessState = derived(
+		[WordStore.pastGuesses, WordStore.word],
+		([pastGuesses, word]) => {
+			return typeof letter === 'string'
+				? getLetterAbsoluteGuessState(pastGuesses, word, letter)
+				: LETTER_GUESS_STATES.NOT_REVEALED
+		}
+	)
 
 	$: stateClass = {
 		[LETTER_GUESS_STATES.NOT_REVEALED]: 'not-revealed',

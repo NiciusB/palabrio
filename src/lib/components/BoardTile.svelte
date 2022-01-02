@@ -27,7 +27,7 @@
 
 	const state = derived(WordStore.pastGuesses, (pastGuesses) =>
 		pastGuesses.length > row
-			? getLetterGuessStateFromGuess($word, $letter, column)
+			? getLetterGuessStateFromGuess($word, pastGuesses[row], column)
 			: LETTER_GUESS_STATES.NOT_REVEALED
 	)
 
