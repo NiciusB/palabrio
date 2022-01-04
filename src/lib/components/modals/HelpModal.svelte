@@ -14,7 +14,7 @@
 	}
 </script>
 
-<Modal>
+<Modal on:backgroundClicked={closeModal}>
 	<h1><PalabrioLogo /></h1>
 
 	<p>
@@ -114,5 +114,9 @@
 		justify-content: center;
 		gap: 0.5rem;
 		margin-block-end: 1rem;
+	}
+
+	h1 {
+		font-size: 4rem;
 	}
 </style>

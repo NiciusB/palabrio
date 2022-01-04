@@ -30,12 +30,10 @@ export default function shareGameResult() {
 
 	const text = `${
 		get(gameState) === GAME_STATES.WON
-			? $_('share_game_results.i_guessed_word_in_n_tries', {
-					values: { word, n: pastGuesses.length },
+			? $_('share_game_results.i_guessed_my_word_in_n_tries', {
+					values: { n: pastGuesses.length },
 			  })
-			: $_('share_game_results.i_couldnt_guess_word', {
-					values: { word },
-			  })
+			: $_('share_game_results.i_couldnt_guess_my_word')
 	}\n${board}\n${window.location.href}`
 
 	navigator.share({

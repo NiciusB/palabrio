@@ -1,4 +1,9 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte'
+	import trapfocus from '~/lib/actions/trapfocus'
+
+	const dispatch = createEventDispatcher()
+
 	function animateOutContainer(_: any, { delay = 0, duration = 360 }) {
 		return {
 			delay,
@@ -13,16 +18,30 @@
 			css: (t: number) => `opacity: ${t}; transform: scale(${t * 0.2 + 0.8});`,
 		}
 	}
+
+	let containerElement: HTMLElement
+
+	function onContainerClicked(evt: Event) {
+		if (evt.currentTarget !== containerElement) {
+			return
+		}
+
+		dispatch('backgroundClicked')
+	}
 </script>
 
 <div
+	bind:this={containerElement}
 	class="modal-container"
-	role="alert"
+	role="dialog"
 	aria-live="assertive"
 	aria-atomic="true"
-	out:animateOutContainer
+	tabindex="-1"
+	on:click={onContainerClicked}
+	out:animateOutContainer|local
+	use:trapfocus
 >
-	<div class="modal-content" out:animateOutContent>
+	<div class="modal-content" out:animateOutContent|local>
 		<slot />
 	</div>
 </div>

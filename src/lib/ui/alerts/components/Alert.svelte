@@ -15,7 +15,7 @@
 	role="alert"
 	aria-live="assertive"
 	aria-atomic="true"
-	out:animateOut
+	out:animateOut|local
 >
 	{alert.message}
 </div>

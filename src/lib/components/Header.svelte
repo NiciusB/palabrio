@@ -3,35 +3,24 @@
 	import PalabrioLogo from '~/lib/components/PalabrioLogo.svelte'
 	import { _ } from '~/lib/helpers/i18n'
 	import LanguageStore from '~/lib/stores/LanguageStore'
+	import { Link } from 'svelte-navigator'
 	const dispatch = createEventDispatcher()
 
 	$: lang = LanguageStore.dictionaryLanguage
 </script>
 
 <header>
-	<h1><PalabrioLogo /></h1>
+	<Link to="/"><h1><PalabrioLogo /></h1></Link>
 
 	<div class="right-side">
 		<!-- svelte-ignore a11y-invalid-attribute -->
 		<a href="javascript: void 0;" on:click={() => dispatch('openHelpModal')}
 			>{$_('header.help')}</a
 		>
-
-		<select
-			value={$lang}
-			on:change={(e) =>
-				LanguageStore.setDictionaryLanguage(e.currentTarget.value)}
-		>
-			{#each LanguageStore.dictionaryLanguagesList as code}
-				<option value={code}>
-					{LanguageStore.getLanguageName(code)}
-				</option>
-			{/each}
-		</select>
 	</div>
 </header>
 
-<style>
+<style lang="scss">
 	header {
 		text-align: center;
 		padding: 1em;
@@ -46,11 +35,6 @@
 
 	h1 {
 		font-size: 48px;
-	}
-
-	select {
-		float: right;
-		width: 6rem;
 	}
 
 	.right-side {

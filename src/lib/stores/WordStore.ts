@@ -1,10 +1,6 @@
 import { writable, get } from 'svelte/store'
 import LanguageStore from '~/lib/stores/LanguageStore'
-import {
-	convertWritableToReadable,
-	normalizeWord,
-	randomFromArray,
-} from '~/lib/helpers/utils'
+import { convertWritableToReadable, normalizeWord } from '~/lib/helpers/utils'
 import AlertStore from '~/lib/ui/alerts/stores/AlertStore'
 import { $_ } from '~/lib/helpers/i18n'
 import GAME_STATES from '~/lib/enums/GAME_STATES'
@@ -14,8 +10,10 @@ const word = writable('')
 const guess = writable('')
 const pastGuesses = writable([] as string[])
 
-function generateWord() {
-	const newWord = randomFromArray(get(LanguageStore.dictionaryArray))
+function setWord(newWord: string) {
+	if (newWord === get(word)) {
+		return
+	}
 
 	guess.set('')
 	pastGuesses.set([])
@@ -97,7 +95,7 @@ const WordStore = {
 	submitGuess,
 	addLetterToGuess,
 	removeLastLetterGuess,
-	generateWord,
+	setWord,
 }
 
 export default WordStore

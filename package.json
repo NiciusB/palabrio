@@ -15,8 +15,11 @@
 		"@babel/preset-env": "^7.16.7",
 		"@babel/preset-typescript": "^7.16.7",
 		"@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+		"@testing-library/jest-dom": "^5.16.1",
 		"@tsconfig/svelte": "^2.0.1",
 		"@types/jest": "^27.4.0",
+		"autoprefixer": "^10.4.1",
+		"babel-jest": "^27.4.5",
 		"babel-plugin-module-resolver": "^4.1.0",
 		"babel-plugin-transform-vite-meta-glob": "^1.0.3",
 		"jest": "^27.4.5",
@@ -29,15 +32,15 @@
 		"svelte-preprocess": "^4.10.1",
 		"tslib": "^2.3.1",
 		"typescript": "^4.5.4",
-		"babel-jest": "^27.4.5",
-		"autoprefixer": "^10.4.1",
-		"@testing-library/jest-dom": "^5.16.1",
 		"vite": "^2.7.2"
 	},
 	"dependencies": {
+		"@types/seedrandom": "^3.0.1",
 		"normalize.css": "^8.0.1",
+		"seedrandom": "^3.0.5",
 		"share-api-polyfill": "^1.0.21",
-		"svelte-i18n": "^3.3.13"
+		"svelte-i18n": "^3.3.13",
+		"svelte-navigator": "^3.1.5"
 	},
 	"imports": {
 		"~/*": "./src/*.ts"

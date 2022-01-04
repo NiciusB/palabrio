@@ -27,4 +27,5 @@ export default defineConfig({
 			'~': path.resolve(_dirname, './src'),
 		},
 	},
+	optimizeDeps: { exclude: ['svelte-navigator'] },
 })

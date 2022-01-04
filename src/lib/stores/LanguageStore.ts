@@ -1,8 +1,11 @@
 import { writable, get, derived } from 'svelte/store'
 import type { Writable } from 'svelte/store'
-import WordStore from '~/lib/stores/WordStore'
 import languageNames from '~/lib/helpers/languageNames.json'
-import { convertWritableToReadable, normalizeWord } from '~/lib/helpers/utils'
+import {
+	convertWritableToReadable,
+	normalizeWord,
+	randomFromArray,
+} from '~/lib/helpers/utils'
 
 const dictionariesImport = import.meta.glob('../../dictionaries/*.json') // Does not support alias for now: https://github.com/vitejs/vite/issues/5717
 
@@ -27,7 +30,6 @@ async function setDictionaryLanguage(newDictionaryLanguage: string) {
 		return
 	}
 
-	dictionaryLanguage.set(newDictionaryLanguage)
 	dictionaryArray.set(
 		(
 			(await dictionariesList[newDictionaryLanguage]()) as {
@@ -35,17 +37,18 @@ async function setDictionaryLanguage(newDictionaryLanguage: string) {
 			}
 		).default
 	)
+	dictionaryLanguage.set(newDictionaryLanguage)
 
 	let uniqueLetters = [...new Set(get(dictionaryArray).join(''))]
 	uniqueLetters = [
 		...new Set(uniqueLetters.map((letter) => normalizeWord(letter))),
 	]
 	keyboardLetters.set(uniqueLetters)
-
-	WordStore.generateWord()
 }
 
-setDictionaryLanguage(navigator.language.split('-')[0])
+export const initialDictionaryLoadPromise = setDictionaryLanguage(
+	navigator.language.split('-')[0]
+)
 
 function getLanguageName(code: string): string {
 	return (languageNames as { [key: string]: string })[code] ?? code
@@ -55,6 +58,12 @@ const normalizedDictionaryArray = derived(dictionaryArray, (arr) =>
 	arr.map((word) => normalizeWord(word))
 )
 
+function generateRandomWord(
+	prng: (() => number) | undefined = undefined
+): string {
+	return randomFromArray(get(LanguageStore.dictionaryArray), prng)
+}
+
 const LanguageStore = {
 	normalizedDictionaryArray,
 	dictionaryLanguage: convertWritableToReadable(dictionaryLanguage),
@@ -63,5 +72,6 @@ const LanguageStore = {
 	dictionaryLanguagesList,
 	setDictionaryLanguage,
 	getLanguageName,
+	generateRandomWord,
 }
 export default LanguageStore
