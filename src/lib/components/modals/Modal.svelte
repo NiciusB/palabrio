@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte'
 	import trapfocus from '~/lib/actions/trapfocus'
+	import Portal from 'svelte-portal'
 
 	const dispatch = createEventDispatcher()
 
@@ -30,21 +31,23 @@
 	}
 </script>
 
-<div
-	bind:this={containerElement}
-	class="modal-container"
-	role="dialog"
-	aria-live="assertive"
-	aria-atomic="true"
-	tabindex="-1"
-	on:click={onContainerClicked}
-	out:animateOutContainer|local
-	use:trapfocus
->
-	<div class="modal-content" out:animateOutContent|local>
-		<slot />
+<Portal>
+	<div
+		bind:this={containerElement}
+		class="modal-container"
+		role="dialog"
+		aria-live="assertive"
+		aria-atomic="true"
+		tabindex="-1"
+		on:click={onContainerClicked}
+		out:animateOutContainer|local
+		use:trapfocus
+	>
+		<div class="modal-content" out:animateOutContent|local>
+			<slot />
+		</div>
 	</div>
-</div>
+</Portal>
 
 <style lang="scss">
 	.modal-container {

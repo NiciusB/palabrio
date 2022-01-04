@@ -40,7 +40,8 @@
 		"seedrandom": "^3.0.5",
 		"share-api-polyfill": "^1.0.21",
 		"svelte-i18n": "^3.3.13",
-		"svelte-navigator": "^3.1.5"
+		"svelte-navigator": "^3.1.5",
+		"svelte-portal": "^2.1.2"
 	},
 	"imports": {
 		"~/*": "./src/*.ts"
