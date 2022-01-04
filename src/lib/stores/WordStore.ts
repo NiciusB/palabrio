@@ -11,10 +11,6 @@ const guess = writable('')
 const pastGuesses = writable([] as string[])
 
 function setWord(newWord: string) {
-	if (newWord === get(word)) {
-		return
-	}
-
 	guess.set('')
 	pastGuesses.set([])
 	word.set(newWord)
