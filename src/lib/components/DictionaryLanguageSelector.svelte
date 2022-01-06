@@ -1,13 +1,16 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte'
 	import LanguageStore from '~/lib/stores/LanguageStore'
 
-	$: lang = LanguageStore.dictionaryLanguage
+	const dispatch = createEventDispatcher()
+
+	export let lang: string
 </script>
 
 <select
 	class={$$props.class}
-	value={$lang}
-	on:change={(e) => LanguageStore.setDictionaryLanguage(e.currentTarget.value)}
+	value={lang}
+	on:change={(e) => dispatch('change', e.currentTarget.value)}
 >
 	{#each Array.from(LanguageStore.dictionaryLanguagesList) as code}
 		<option value={code}>

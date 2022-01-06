@@ -6,6 +6,7 @@ import {
 	normalizeWord,
 	randomFromArray,
 } from '~/lib/helpers/utils'
+import { COLUMNS } from '~/lib/stores/GameStore'
 
 const dictionariesImport = import.meta.glob('../../dictionaries/**/*.json') // Does not support alias for now: https://github.com/vitejs/vite/issues/5717
 
@@ -18,70 +19,69 @@ const dictionariesList = Object.fromEntries(
 	})
 )
 
-const navigationLang = navigator.language.split('-')[0]
-const dictionaryLanguage: Writable<string> = writable(navigationLang)
-const dictionaryArray: Writable<string[]> = writable([])
+let initialDictionaryLanguage = navigator.language.split('-')[0]
+if (!dictionariesList[`${5}-${initialDictionaryLanguage}`]) {
+	initialDictionaryLanguage = 'en'
+}
+
+const dictionaryLanguage: Writable<string> = writable(initialDictionaryLanguage)
+const dictionary: Writable<string[]> = writable([])
 const keyboardLetters: Writable<string[]> = writable([])
 
 let lastDictLetterCount: number
 let lastDictLang: string
-async function loadDictionary(letterCount: number): Promise<undefined> {
-	const lang = get(dictionaryLanguage)
+async function loadDictionary(letterCount: number, language?: string) {
+	language = language ?? get(dictionaryLanguage)
 
-	if (lastDictLetterCount === letterCount && lastDictLang === lang) {
-		// Dictionary already loaded
+	if (lastDictLetterCount === letterCount && lastDictLang === language) {
+		// Same dictionary already loaded
 		return
 	}
 	lastDictLetterCount = letterCount
-	lastDictLang = lang
+	lastDictLang = language
 
-	if (!dictionariesList[`${letterCount}-${lang}`]) {
-		console.error(
-			`Dictionary not available: ${lang} with ${letterCount} letters`
+	if (!dictionariesList[`${letterCount}-${language}`]) {
+		throw Error(
+			`Dictionary not available: ${language} with ${letterCount} letters`
 		)
-		if (lang !== 'en') {
-			setDictionaryLanguage('en')
-			return await loadDictionary(letterCount)
-		}
-		return
 	}
 
-	dictionaryArray.set(
-		(await dictionariesList[`${letterCount}-${lang}`]()).default
-	)
+	COLUMNS.set(letterCount)
+	const newDict = (await dictionariesList[`${letterCount}-${language}`]())
+		.default
+	dictionary.set(newDict)
+	dictionaryLanguage.set(language)
+	recalculateKeyboardLetters()
+}
 
-	let uniqueLetters = [...new Set(get(dictionaryArray).join(''))]
+function recalculateKeyboardLetters() {
+	let uniqueLetters = [...new Set(get(dictionary).join(''))]
 	uniqueLetters = [
 		...new Set(uniqueLetters.map((letter) => normalizeWord(letter))),
 	]
 	keyboardLetters.set(uniqueLetters)
 }
 
-function setDictionaryLanguage(newDictionaryLanguage: string) {
-	dictionaryLanguage.set(newDictionaryLanguage)
-}
-
 function getLanguageName(code: string): string {
 	return (languageNames as { [key: string]: string })[code] ?? code
 }
 
-const normalizedDictionaryArray = derived(dictionaryArray, (arr) =>
+const normalizedDictionary = derived(dictionary, (arr) =>
 	arr.map((word) => normalizeWord(word))
 )
 
 function generateRandomWord(
 	prng: (() => number) | undefined = undefined
 ): string {
-	return randomFromArray(get(LanguageStore.dictionaryArray), prng)
+	return randomFromArray(get(LanguageStore.dictionary), prng)
 }
 
 const LanguageStore = {
-	normalizedDictionaryArray,
+	normalizedDictionary,
 	dictionaryLanguage: convertWritableToReadable(dictionaryLanguage),
-	dictionaryArray: convertWritableToReadable(dictionaryArray),
+	dictionary: convertWritableToReadable(dictionary),
 	keyboardLetters: convertWritableToReadable(keyboardLetters),
 	dictionaryLanguagesList,
-	setDictionaryLanguage,
 	getLanguageName,
 	generateRandomWord,
 	loadDictionary,

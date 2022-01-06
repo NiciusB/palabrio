@@ -34,7 +34,7 @@ function submitGuess() {
 		return false
 	}
 
-	if (!get(LanguageStore.normalizedDictionaryArray).includes(get(guess))) {
+	if (!get(LanguageStore.normalizedDictionary).includes(get(guess))) {
 		AlertStore.addAlert($_('alert.word_not_in_our_list'))
 		return false
 	}

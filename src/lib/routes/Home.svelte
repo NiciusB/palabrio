@@ -1,42 +1,70 @@
 <script lang="ts">
-	import { Link } from 'svelte-navigator'
+	import { navigate } from 'svelte-navigator'
+	import { get } from 'svelte/store'
 	import DictionaryLanguageSelector from '~/lib/components/DictionaryLanguageSelector.svelte'
 	import SelfManagedHelpModal from '~/lib/components/modals/SelfManagedHelpModal.svelte'
 	import { base64Encode } from '~/lib/helpers/base64ForUrls'
+	import { DAILY_WORD_LETTERS } from '~/lib/helpers/generateDailyRandomWord'
 	import getDailyWordInfo from '~/lib/helpers/getDailyWordInfo'
 	import { _ } from '~/lib/helpers/i18n'
 	import LanguageStore from '~/lib/stores/LanguageStore'
 	import PalabrioLogo from '../components/PalabrioLogo.svelte'
 
-	let encodedWord = ''
-
-	$: dictionaryLanguage = LanguageStore.dictionaryLanguage
-	$: {
-		$dictionaryLanguage
-		encodedWord = base64Encode(LanguageStore.generateRandomWord())
-	}
+	let lang = get(LanguageStore.dictionaryLanguage)
 
 	const dailyWordInfo = getDailyWordInfo()
+
+	let loadingDaily = false
+	let loadingRandom = false
+
+	async function playDailyClicked() {
+		loadingDaily = true
+		try {
+			await LanguageStore.loadDictionary(DAILY_WORD_LETTERS, lang)
+		} finally {
+			loadingDaily = false
+		}
+
+		navigate('/play-daily')
+	}
+
+	async function playRandomClicked() {
+		loadingRandom = true
+		try {
+			await LanguageStore.loadDictionary(5, lang)
+		} finally {
+			loadingRandom = false
+		}
+		navigate(`/play/${base64Encode(LanguageStore.generateRandomWord())}`)
+	}
 </script>
 
 <main>
 	<nav>
 		<h1><PalabrioLogo /></h1>
 
-		<DictionaryLanguageSelector />
+		<DictionaryLanguageSelector
+			{lang}
+			on:change={(event) => (lang = event.detail)}
+		/>
 
-		<Link class="menu-link btn btn-fill btn-padding-l" to={`/play-daily`}
+		<button
+			class="menu-link btn btn-fill btn-padding-l"
+			on:click={playDailyClicked}
+			disabled={loadingDaily}
 			>{$_('home.play_daily_word')}
 			<span class="badge-season-day"
 				>{$_('season_day_short', {
 					values: { season: dailyWordInfo.season, day: dailyWordInfo.day },
 				})}</span
 			>
-		</Link>
+		</button>
 
-		<Link
+		<!-- svelte-ignore a11y-invalid-attribute -->
+		<button
+			disabled={loadingRandom}
 			class="menu-link btn btn-fill btn-padding-l"
-			to={`/play/${encodedWord}`}>{$_('home.play_random_word')}</Link
+			on:click={playRandomClicked}>{$_('home.play_random_word')}</button
 		>
 
 		<SelfManagedHelpModal />

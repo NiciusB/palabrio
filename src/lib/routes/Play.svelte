@@ -2,13 +2,13 @@
 	import { useParams } from 'svelte-navigator'
 	import Game from '~/lib/components/Game.svelte'
 	import { base64Decode } from '~/lib/helpers/base64ForUrls'
-	import { newGame } from '~/lib/stores/GameStore'
+	import LanguageStore from '~/lib/stores/LanguageStore'
 	import WordStore from '~/lib/stores/WordStore'
 
 	const params = useParams()
 	let loadingPromise: Promise<any>
 	$: {
-		loadingPromise = newGame(5).then(() => {
+		loadingPromise = LanguageStore.loadDictionary(5).then(() => {
 			WordStore.setWord(base64Decode($params.encodedWord))
 		})
 	}

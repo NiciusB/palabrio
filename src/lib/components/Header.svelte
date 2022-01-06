@@ -2,11 +2,11 @@
 	import { createEventDispatcher } from 'svelte'
 	import PalabrioLogo from '~/lib/components/PalabrioLogo.svelte'
 	import { _ } from '~/lib/helpers/i18n'
-	import LanguageStore from '~/lib/stores/LanguageStore'
 	import { Link } from 'svelte-navigator'
+	import LanguageStore from '~/lib/stores/LanguageStore'
 	const dispatch = createEventDispatcher()
 
-	$: lang = LanguageStore.dictionaryLanguage
+	$: dictionaryLanguage = LanguageStore.dictionaryLanguage
 </script>
 
 <header>
@@ -17,6 +17,7 @@
 		<a href="javascript: void 0;" on:click={() => dispatch('openHelpModal')}
 			>{$_('header.help')}</a
 		>
+		<span>{LanguageStore.getLanguageName($dictionaryLanguage)}</span>
 	</div>
 </header>
 
@@ -40,7 +41,7 @@
 	.right-side {
 		flex-shrink: 1;
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		gap: 0.5rem;
 		flex-wrap: wrap-reverse;
 		align-items: center;

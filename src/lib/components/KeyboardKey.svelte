@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Icon from '~/lib/components/Icon.svelte'
 	import WordStore from '~/lib/stores/WordStore'
 	import { getLetterAbsoluteGuessState } from '~/lib/helpers/getLetterGuessState'
 	import LETTER_GUESS_STATES from '~/lib/enums/LETTER_GUESS_STATES'
@@ -7,6 +6,7 @@
 	import SPECIAL_LETTERS from '~/lib/enums/SPECIAL_LETTERS'
 	import longpress from '~/lib/actions/longPress'
 	import { _ } from '~/lib/helpers/i18n'
+	import Icon from '~/lib/ui/Icon.svelte'
 
 	export let letter: string | SPECIAL_LETTERS
 
