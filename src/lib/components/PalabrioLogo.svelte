@@ -6,6 +6,6 @@
 
 <style lang="scss">
 	img {
-		width: 3.5em;
+		height: 0.8em;
 	}
 </style>

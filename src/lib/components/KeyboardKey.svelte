@@ -53,7 +53,9 @@
 	</button>
 {:else}
 	<button
-		class={stateClass}
+		class={`${stateClass} ${
+			letter === SPECIAL_LETTERS.ENTER ? 'key-enter' : ''
+		}`}
 		on:contextmenu|stopPropagation
 		on:click={buttonPressed}
 		title={letter === SPECIAL_LETTERS.ENTER
@@ -70,7 +72,6 @@
 
 <style lang="scss">
 	button {
-		flex: 1 1 0px;
 		font-weight: bold;
 		border: 0;
 		padding: 1rem 0.3rem;
@@ -100,6 +101,10 @@
 
 		&.revealed-no-match {
 			background-color: var(--key-no-match-bg);
+		}
+
+		&.key-enter {
+			max-width: 20%;
 		}
 	}
 </style>

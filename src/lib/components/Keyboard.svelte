@@ -51,6 +51,11 @@
 		}
 	}
 
+	$: maxKeyWidthPercentage =
+		Math.round(
+			(100 / Math.max(...keyboardRows.map((row) => row.length))) * 100
+		) / 100
+
 	function calculateLettersPerRow(rowIndex: number) {
 		switch (get(LanguageStore.dictionaryLanguage)) {
 			case 'es':
@@ -61,7 +66,7 @@
 	}
 </script>
 
-<aside>
+<aside style={`--max-key-width: ${maxKeyWidthPercentage}%;`}>
 	{#each keyboardRows as row}
 		<div class="row">
 			{#each row as letter}
@@ -89,5 +94,13 @@
 		gap: 0.3rem;
 		flex-grow: 1;
 		flex-wrap: wrap;
+		justify-content: center;
+
+		:global {
+			> * {
+				flex: 1 1 0;
+				max-width: var(--max-key-width);
+			}
+		}
 	}
 </style>
