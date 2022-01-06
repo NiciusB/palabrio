@@ -1,4 +1,3 @@
-import { isFunctionNative } from '~/lib/helpers/utils'
 import GAME_STATES from '~/lib/enums/GAME_STATES'
 import WordStore from '~/lib/stores/WordStore'
 import { COLUMNS, gameState, ROWS } from '~/lib/stores/GameStore'
@@ -6,6 +5,7 @@ import { $_ } from '~/lib/helpers/i18n'
 import { get } from 'svelte/store'
 import { getLetterGuessStateFromGuess } from '~/lib/helpers/getLetterGuessState'
 import LETTER_GUESS_STATES from '~/lib/enums/LETTER_GUESS_STATES'
+import share from '~/lib/helpers/share'
 
 export default function shareGameResult() {
 	const word = get(WordStore.word)
@@ -34,11 +34,9 @@ export default function shareGameResult() {
 					values: { n: pastGuesses.length },
 			  })
 			: $_('share_game_results.i_couldnt_guess_the_word')
-	}\n${board}\n${window.location.href}`
+	}\n\n${board}\n\n${window.location.href}`
 
-	navigator.share({
-		title: 'Palabrio',
-		text: isFunctionNative(navigator.share) ? text : encodeURIComponent(text), // Needed for our navigator.share polyfill library to accept newlines
-		url: '',
+	share({
+		text: text,
 	})
 }

@@ -4,7 +4,6 @@
 	import setGlobalCssVariables from '~/lib/helpers/setGlobalCssVariables'
 	import setupKeyboardListener from '~/lib/helpers/setupKeyboardListener'
 	import '~/lib/helpers/i18n'
-	import 'share-api-polyfill'
 	import { Router, Route } from 'svelte-navigator'
 	import Home from '~/lib/routes/Home.svelte'
 	import Play from '~/lib/routes/Play.svelte'
