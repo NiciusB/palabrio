@@ -39,7 +39,6 @@
 		text-transform: uppercase;
 		will-change: background-color, outline, transform;
 		transition: background-color ease 300ms, outline ease 300ms;
-		contain: strict;
 
 		&.not-revealed {
 			background: transparent;
