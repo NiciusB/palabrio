@@ -4,8 +4,16 @@ import { HunspellReader } from 'hunspell-reader'
 import { workerData } from 'worker_threads'
 
 const MIN_DICTIONARY_WORDS = 5000
-const MIN_LETTER_COUNT = 5
-const FILTER_WORD_LENGTH = 5
+const MIN_LETTER_COUNT = 10
+const WORD_LENGTHS = [2, 3, 4, 5, 6, 7, 8, 9]
+const LETTER_BLACKLIST = new RegExp(
+	'[' +
+		'1234567890\\-+ \'"`’.,:;\\\\·!' +
+		'₁₂₃₄₅₆₇₈₉₀₊₋₌₍₎' +
+		'⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾' +
+		'ᴬᴭᴮᴯᴰᴱᴲᴳᴴᴵᴶᴷᴸᴹᴺᴻᴼᴽᴾᴿᵀᵁᵂᵃᵄᵅᵆᵇᵈᵉᵊᵋᵌᵍᵎᵏᵐᵑᵒᵓᵔᵕᵖᵗᵘᵙᵚᵛᵜ' +
+		']'
+)
 
 const lang = workerData.lang
 const distDir = workerData.distDir
@@ -14,7 +22,7 @@ const shouldSkipExisting = workerData.shouldSkipExisting
 
 async function main() {
 	if (shouldSkipExisting && doesDictionaryFileAlreadyExist(lang)) {
-		console.log(`✨ Skipping ${lang} since it already exists`)
+		console.log(`👉 Skipping ${lang} since it already exists`)
 		return
 	}
 
@@ -28,7 +36,7 @@ async function main() {
 
 		words = reader
 			.wholeWords()
-			.filter((word) => filterWord(word))
+			.filter((word) => !LETTER_BLACKLIST.test(word))
 			.toArray()
 		words = filterOutUncommonLetters(words)
 	} catch (error) {
@@ -43,20 +51,18 @@ async function main() {
 		return
 	}
 
-	saveDictionary(lang, words)
-	console.log(`📝 ${lang} processed and saved, with ${words.length} words`)
+	WORD_LENGTHS.forEach((wordLength) => {
+		saveDictionary(
+			lang,
+			words.filter((word) => word.length === wordLength),
+			wordLength
+		)
+	})
+
+	console.log(`📝 ${lang} processed and saved`)
 }
 
 main()
-
-const LETTER_BLACKLIST = new RegExp(
-	'[' +
-		'1234567890\\-+ \'"`’.,:;\\\\·!' +
-		'₁₂₃₄₅₆₇₈₉₀₊₋₌₍₎' +
-		'⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾' +
-		'ᴬᴭᴮᴯᴰᴱᴲᴳᴴᴵᴶᴷᴸᴹᴺᴻᴼᴽᴾᴿᵀᵁᵂᵃᵄᵅᵆᵇᵈᵉᵊᵋᵌᵍᵎᵏᵐᵑᵒᵓᵔᵕᵖᵗᵘᵙᵚᵛᵜ' +
-		']'
-)
 
 function filterOutUncommonLetters(words: string[]): string[] {
 	const letterDistribution: { [key: string]: number } = {}
@@ -91,24 +97,19 @@ function filterOutUncommonLetters(words: string[]): string[] {
 	return words
 }
 
-function filterWord(word: string): boolean {
-	if (word.length !== FILTER_WORD_LENGTH) {
-		return false
-	}
-	if (LETTER_BLACKLIST.test(word)) {
-		return false
-	}
-	return true
-}
-
 function doesDictionaryFileAlreadyExist(lang: string) {
-	const filePath = path.join(distDir, lang + '.json')
-	return fs.existsSync(filePath)
+	return WORD_LENGTHS.every((wordLength) => {
+		const dirPath = path.join(distDir, wordLength.toString())
+		const filePath = path.join(dirPath, lang + '.json')
+		return fs.existsSync(filePath)
+	})
 }
 
-function saveDictionary(lang: string, words: string[]) {
-	fs.mkdirSync(distDir, { recursive: true })
-	const filePath = path.join(distDir, lang + '.json')
+function saveDictionary(lang: string, words: string[], wordLength: number) {
+	const dirPath = path.join(distDir, wordLength.toString())
+
+	fs.mkdirSync(dirPath, { recursive: true })
+	const filePath = path.join(dirPath, lang + '.json')
 	fs.writeFileSync(filePath, JSON.stringify(words))
 }
 

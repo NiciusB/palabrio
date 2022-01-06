@@ -7,37 +7,48 @@ import {
 	randomFromArray,
 } from '~/lib/helpers/utils'
 
-const dictionariesImport = import.meta.glob('../../dictionaries/*.json') // Does not support alias for now: https://github.com/vitejs/vite/issues/5717
+const dictionariesImport = import.meta.glob('../../dictionaries/**/*.json') // Does not support alias for now: https://github.com/vitejs/vite/issues/5717
 
+const dictionaryLanguagesList = new Set<string>()
 const dictionariesList = Object.fromEntries(
-	Object.entries(dictionariesImport).map(([file, importFn]) => [
-		(/\/(\w*?)\.json/.exec(file) ?? [])[1],
-		importFn,
-	])
+	Object.entries(dictionariesImport).map(([file, importFn]) => {
+		const [, letterCount, lang] = /\/(\d+)\/(\w+)\.json/.exec(file) ?? []
+		dictionaryLanguagesList.add(lang)
+		return [`${letterCount}-${lang}`, importFn]
+	})
 )
-const dictionaryLanguagesList = Object.keys(dictionariesList)
 
-const dictionaryLanguage: Writable<string> = writable()
+const navigationLang = navigator.language.split('-')[0]
+const dictionaryLanguage: Writable<string> = writable(navigationLang)
 const dictionaryArray: Writable<string[]> = writable([])
 const keyboardLetters: Writable<string[]> = writable([])
 
-async function setDictionaryLanguage(newDictionaryLanguage: string) {
-	if (!dictionariesList[newDictionaryLanguage]) {
-		console.error(`Language not in list: ${newDictionaryLanguage}`)
-		if (newDictionaryLanguage !== 'en') {
-			await setDictionaryLanguage('en')
+let lastDictLetterCount: number
+let lastDictLang: string
+async function loadDictionary(letterCount: number): Promise<undefined> {
+	const lang = get(dictionaryLanguage)
+
+	if (lastDictLetterCount === letterCount && lastDictLang === lang) {
+		// Dictionary already loaded
+		return
+	}
+	lastDictLetterCount = letterCount
+	lastDictLang = lang
+
+	if (!dictionariesList[`${letterCount}-${lang}`]) {
+		console.error(
+			`Dictionary not available: ${lang} with ${letterCount} letters`
+		)
+		if (lang !== 'en') {
+			setDictionaryLanguage('en')
+			return await loadDictionary(letterCount)
 		}
 		return
 	}
 
 	dictionaryArray.set(
-		(
-			(await dictionariesList[newDictionaryLanguage]()) as {
-				default: string[]
-			}
-		).default
+		(await dictionariesList[`${letterCount}-${lang}`]()).default
 	)
-	dictionaryLanguage.set(newDictionaryLanguage)
 
 	let uniqueLetters = [...new Set(get(dictionaryArray).join(''))]
 	uniqueLetters = [
@@ -46,9 +57,9 @@ async function setDictionaryLanguage(newDictionaryLanguage: string) {
 	keyboardLetters.set(uniqueLetters)
 }
 
-export const initialDictionaryLoadPromise = setDictionaryLanguage(
-	navigator.language.split('-')[0]
-)
+function setDictionaryLanguage(newDictionaryLanguage: string) {
+	dictionaryLanguage.set(newDictionaryLanguage)
+}
 
 function getLanguageName(code: string): string {
 	return (languageNames as { [key: string]: string })[code] ?? code
@@ -73,5 +84,6 @@ const LanguageStore = {
 	setDictionaryLanguage,
 	getLanguageName,
 	generateRandomWord,
+	loadDictionary,
 }
 export default LanguageStore

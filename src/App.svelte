@@ -8,7 +8,6 @@
 	import Home from '~/lib/routes/Home.svelte'
 	import Play from '~/lib/routes/Play.svelte'
 	import { i18nInitialLoadProimse } from '~/lib/helpers/i18n'
-	import { initialDictionaryLoadPromise } from '~/lib/stores/LanguageStore'
 	import PlayDaily from '~/lib/routes/PlayDaily.svelte'
 	import lastInteractionForFocusVisibility from '~/lib/helpers/lastInteractionForFocusVisibility'
 
@@ -17,7 +16,7 @@
 	setGlobalCssVariables()
 </script>
 
-{#await Promise.all([initialDictionaryLoadPromise, i18nInitialLoadProimse])}
+{#await Promise.all([i18nInitialLoadProimse])}
 	<!-- loading  -->
 {:then}
 	<Router>

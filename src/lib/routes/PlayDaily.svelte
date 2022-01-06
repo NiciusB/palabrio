@@ -4,17 +4,23 @@
 	import WordStore from '~/lib/stores/WordStore'
 	import seedrandom from 'seedrandom'
 	import getDailyWordInfo from '~/lib/helpers/getDailyWordInfo'
+	import { newGame } from '~/lib/stores/GameStore'
 
+	let loadingPromise: Promise<any>
 	$: {
 		const dailyWordInfo = getDailyWordInfo()
-		WordStore.setWord(
-			LanguageStore.generateRandomWord(
-				seedrandom(`S${dailyWordInfo.season} D${dailyWordInfo.day}`)
+		loadingPromise = newGame(5).then(() => {
+			WordStore.setWord(
+				LanguageStore.generateRandomWord(
+					seedrandom(`S${dailyWordInfo.season} D${dailyWordInfo.day}`)
+				)
 			)
-		)
+		})
 	}
 </script>
 
-<main>
+{#await loadingPromise}
+	<!-- loading  -->
+{:then}
 	<Game />
-</main>
+{/await}
