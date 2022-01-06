@@ -68,7 +68,7 @@ function addLetterToGuess(letter: string) {
 		return false
 	}
 
-	guess.set(get(guess) + letter)
+	guess.update((oldGuess) => oldGuess + letter)
 	return true
 }
 function removeLastLetterGuess() {
@@ -80,7 +80,7 @@ function removeLastLetterGuess() {
 		return false
 	}
 
-	guess.set(get(guess).slice(0, -1))
+	guess.update((oldGuess) => oldGuess.slice(0, -1))
 	return true
 }
 

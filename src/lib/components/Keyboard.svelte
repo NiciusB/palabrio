@@ -3,18 +3,18 @@
 	import { get } from 'svelte/store'
 	import KeyboardKey from '~/lib/components/KeyboardKey.svelte'
 	import SPECIAL_LETTERS from '~/lib/enums/SPECIAL_LETTERS'
-	import { isLanguageRTL } from '~/lib/helpers/utils'
 
 	let keyboardRows: Array<SPECIAL_LETTERS | string>[] = []
 
-	LanguageStore.keyboardLetters.subscribe((value) => {
+	$: keyboardLetters = LanguageStore.keyboardLetters
+	$: {
 		const DEFAULT_ORDER = [
 			'qwertyuiopđasdfghjklñæzxcvbnm',
 			'קראטוןםפשדגכעיחלךףזסבהנמצתץ',
 			'ضصثقفغعهخحجدشسيبلاتنمكطئءؤرﻻىةوزظ',
 		].join('')
-		const sortedLetters: Array<SPECIAL_LETTERS | string> = value.sort(
-			(a, b) => {
+		const sortedLetters: Array<SPECIAL_LETTERS | string> =
+			$keyboardLetters.sort((a, b) => {
 				const indexA = DEFAULT_ORDER.indexOf(a)
 				const indexB = DEFAULT_ORDER.indexOf(b)
 
@@ -26,8 +26,7 @@
 				}
 
 				return indexA - indexB
-			}
-		)
+			})
 
 		keyboardRows = []
 
@@ -50,7 +49,7 @@
 			keyboardRows[0].push(SPECIAL_LETTERS.BACKSPACE)
 			keyboardRows[keyboardRows.length - 1].push(SPECIAL_LETTERS.ENTER)
 		}
-	})
+	}
 
 	function calculateLettersPerRow(rowIndex: number) {
 		switch (get(LanguageStore.dictionaryLanguage)) {
@@ -60,8 +59,6 @@
 				return rowIndex % 2 === 0 ? 9 : 8
 		}
 	}
-
-	$: lang = LanguageStore.dictionaryLanguage
 </script>
 
 <aside>

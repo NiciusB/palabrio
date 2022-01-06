@@ -1,23 +1,14 @@
 <script lang="ts">
 	import { Link } from 'svelte-navigator'
 	import DictionaryLanguageSelector from '~/lib/components/DictionaryLanguageSelector.svelte'
-	import HelpModal from '~/lib/components/modals/HelpModal.svelte'
+	import SelfManagedHelpModal from '~/lib/components/modals/SelfManagedHelpModal.svelte'
 	import { base64Encode } from '~/lib/helpers/base64ForUrls'
 	import getDailyWordInfo from '~/lib/helpers/getDailyWordInfo'
 	import { _ } from '~/lib/helpers/i18n'
-	import { storageGet, storageSet } from '~/lib/helpers/storage'
 	import LanguageStore from '~/lib/stores/LanguageStore'
 	import PalabrioLogo from '../components/PalabrioLogo.svelte'
 
-	const helpModalLastClosed = storageGet('help_modal_last_closed', null)
-	let isHelpModalOpen = !helpModalLastClosed
 	let encodedWord = ''
-
-	$: {
-		if (!isHelpModalOpen) {
-			storageSet('help_modal_last_closed', Math.floor(Date.now() / 1000))
-		}
-	}
 
 	$: dictionaryLanguage = LanguageStore.dictionaryLanguage
 	$: {
@@ -46,9 +37,7 @@
 			to={`/play/${encodedWord}`}>{$_('home.play_random_word')}</Link
 		>
 
-		{#if isHelpModalOpen}
-			<HelpModal on:close={() => (isHelpModalOpen = false)} />
-		{/if}
+		<SelfManagedHelpModal />
 	</nav>
 
 	<a target="_blank" href="https://twitter.com/Balbonator"

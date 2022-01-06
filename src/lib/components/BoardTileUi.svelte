@@ -39,7 +39,7 @@
 		text-transform: uppercase;
 		will-change: background-color, outline, transform;
 		transition: background-color ease 300ms, outline ease 300ms;
-		transform: translateZ(0);
+		contain: strict;
 
 		&.not-revealed {
 			background: transparent;
@@ -70,18 +70,18 @@
 
 	@keyframes scale-yes-letter {
 		0% {
-			transform: translateZ(0) scale(1);
+			transform: scale(1);
 		}
 		50% {
-			transform: translateZ(0) scale(1.15);
+			transform: scale(1.15);
 		}
 	}
 	@keyframes scale-no-letter {
 		0% {
-			transform: translateZ(0) scale(1);
+			transform: scale(1);
 		}
 		50% {
-			transform: translateZ(0) scale(1.15);
+			transform: scale(1.15);
 		}
 	}
 </style>

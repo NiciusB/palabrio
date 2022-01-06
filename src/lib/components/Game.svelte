@@ -2,18 +2,16 @@
 	import Board from '~/lib/components/Board.svelte'
 	import Header from '~/lib/components/Header.svelte'
 	import Keyboard from '~/lib/components/Keyboard.svelte'
-	import HelpModal from '~/lib/components/modals/HelpModal.svelte'
+	import SelfManagedHelpModal from '~/lib/components/modals/SelfManagedHelpModal.svelte'
 
-	let isHelpModalOpen = false
+	let openHelpModal: () => void
 </script>
 
 <main>
-	<Header on:openHelpModal={() => (isHelpModalOpen = true)} />
+	<Header on:openHelpModal={openHelpModal} />
 	<Board />
 	<Keyboard />
-	{#if isHelpModalOpen}
-		<HelpModal on:close={() => (isHelpModalOpen = false)} />
-	{/if}
+	<SelfManagedHelpModal bind:open={openHelpModal} />
 </main>
 
 <style>

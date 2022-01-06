@@ -56,7 +56,9 @@
 		class={stateClass}
 		on:contextmenu|stopPropagation
 		on:click={buttonPressed}
-		title={letter === SPECIAL_LETTERS.ENTER ? $_('keyboard_key.enter') : null}
+		title={letter === SPECIAL_LETTERS.ENTER
+			? $_('keyboard_key.enter')
+			: undefined}
 	>
 		{#if letter === SPECIAL_LETTERS.ENTER}
 			<Icon icon="enter" width={24} />
@@ -83,7 +85,6 @@
 		color: var(--key-text-color);
 		transition: background-color ease 300ms, outline ease 300ms;
 		will-change: background-color;
-		transform: translateZ(0);
 
 		&.not-revealed {
 			background-color: var(--key-bg);
