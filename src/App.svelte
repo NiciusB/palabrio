@@ -10,7 +10,9 @@
 	import { i18nInitialLoadProimse } from '~/lib/helpers/i18n'
 	import { initialDictionaryLoadPromise } from '~/lib/stores/LanguageStore'
 	import PlayDaily from '~/lib/routes/PlayDaily.svelte'
+	import lastInteractionForFocusVisibility from '~/lib/helpers/lastInteractionForFocusVisibility'
 
+	lastInteractionForFocusVisibility()
 	setupKeyboardListener()
 	setGlobalCssVariables()
 </script>
