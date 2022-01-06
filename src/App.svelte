@@ -10,6 +10,7 @@
 	import { i18nInitialLoadProimse } from '~/lib/helpers/i18n'
 	import PlayDaily from '~/lib/routes/PlayDaily.svelte'
 	import lastInteractionForFocusVisibility from '~/lib/helpers/lastInteractionForFocusVisibility'
+	import PlayRandom from '~/lib/routes/PlayRandom.svelte'
 
 	lastInteractionForFocusVisibility()
 	setupKeyboardListener()
@@ -24,6 +25,7 @@
 			<Home />
 		</Route>
 		<Route path="play/:encodedWord" component={Play} />
+		<Route path="play-random/:encodedData" component={PlayRandom} />
 		<Route path="play-daily" component={PlayDaily} />
 	</Router>
 {:catch error}

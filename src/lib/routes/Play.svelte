@@ -1,21 +1,19 @@
 <script lang="ts">
-	import { useParams } from 'svelte-navigator'
-	import Game from '~/lib/components/Game.svelte'
-	import { base64Decode } from '~/lib/helpers/base64ForUrls'
+	import { navigate, useParams } from 'svelte-navigator'
+	import { get } from 'svelte/store'
+	import { base64Decode, base64Encode } from '~/lib/helpers/base64ForUrls'
 	import LanguageStore from '~/lib/stores/LanguageStore'
-	import WordStore from '~/lib/stores/WordStore'
+
+	// Deprecated endpoint, just redirect to the new one
 
 	const params = useParams()
-	let loadingPromise: Promise<any>
-	$: {
-		loadingPromise = LanguageStore.loadDictionary(5).then(() => {
-			WordStore.setWord(base64Decode($params.encodedWord))
-		})
-	}
-</script>
 
-{#await loadingPromise}
-	<!-- loading  -->
-{:then}
-	<Game />
-{/await}
+	const word = base64Decode($params.encodedWord, false) as string
+
+	const randomData: PlayRandomWordData = {
+		word,
+		lang: get(LanguageStore.dictionaryLanguage),
+	}
+
+	navigate(`/play-random/${base64Encode(randomData)}`, { replace: true })
+</script>

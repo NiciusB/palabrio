@@ -35,7 +35,12 @@
 		} finally {
 			loadingRandom = false
 		}
-		navigate(`/play/${base64Encode(LanguageStore.generateRandomWord())}`)
+
+		const randomData: PlayRandomWordData = {
+			word: LanguageStore.generateRandomWord(),
+			lang,
+		}
+		navigate(`/play-random/${base64Encode(randomData)}`)
 	}
 </script>
 
