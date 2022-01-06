@@ -18,9 +18,12 @@
 	"keyboard_key.enter": "Enter",
 	"share_game_results.i_guessed_the_word_in_n_tries": "I guessed the word in {n} tries",
 	"share_game_results.i_couldnt_guess_the_word": "I couldn't guess the word",
+	"share_game_results.i_guessed_the_daily_word_in_n_tries": "I guessed the daily word in {n} tries",
+	"share_game_results.i_couldnt_guess_the_daily_word": "I couldn't guess the daily word",
 	"home.play_random_word": "Play Random Word",
 	"game_finished.back_to_menu": "Back to menu",
 	"home.play_daily_word": "Play Daily Word",
 	"game_finished.play_random_word": "Play Random Word",
-	"home.contact": "Contact"
+	"home.contact": "Contact",
+	"season_day_short": "S{season} D{day}"
 }

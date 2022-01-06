@@ -12,7 +12,6 @@
 	$: word = WordStore.word
 
 	const location = useLocation()
-
 	$: isInDailyWord = $location.pathname === '/play-daily'
 </script>
 

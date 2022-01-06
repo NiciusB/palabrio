@@ -28,7 +28,9 @@
 		<Link class="menu-link btn btn-fill btn-padding-l" to={`/play-daily`}
 			>{$_('home.play_daily_word')}
 			<span class="badge-season-day"
-				>S{dailyWordInfo.season} D{dailyWordInfo.day}</span
+				>{$_('season_day_short', {
+					values: { season: dailyWordInfo.season, day: dailyWordInfo.day },
+				})}</span
 			>
 		</Link>
 

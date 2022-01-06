@@ -22,5 +22,6 @@
 	"game_finished.back_to_menu": "Volver al menú",
 	"home.play_daily_word": "Jugar Palabra Diaria",
 	"game_finished.play_random_word": "Jugar Palabra Aleatoria",
-	"home.contact": "Contacto"
+	"home.contact": "Contacto",
+	"season_day_short": "T{season} D{day}"
 }
