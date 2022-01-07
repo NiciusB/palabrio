@@ -32,7 +32,7 @@
 		width: 4rem;
 		height: 4rem;
 		--max-size: min(
-			calc((100vh - 25rem) / var(--num-rows)),
+			calc((var(--vh, 1vh) * 100 - 25rem) / var(--num-rows)),
 			calc((100vw - 5rem) / var(--num-columns))
 		);
 		max-width: var(--max-size);
