@@ -12,9 +12,9 @@
 	value={lang}
 	on:change={(e) => dispatch('change', e.currentTarget.value)}
 >
-	{#each Array.from(LanguageStore.dictionaryLanguagesList) as code}
-		<option value={code}>
-			{LanguageStore.getLanguageName(code)}
+	{#each LanguageStore.dictionariesList as langCode}
+		<option value={langCode}>
+			{LanguageStore.getLanguageName(langCode)}
 		</option>
 	{/each}
 </select>

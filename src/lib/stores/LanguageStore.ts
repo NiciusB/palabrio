@@ -7,20 +7,10 @@ import {
 	randomFromArray,
 } from '~/lib/helpers/utils'
 import { COLUMNS } from '~/lib/stores/GameStore'
-
-const dictionariesImport = import.meta.glob('../../dictionaries/**/*.json') // Does not support alias for now: https://github.com/vitejs/vite/issues/5717
-
-const dictionaryLanguagesList = new Set<string>()
-const dictionariesList = Object.fromEntries(
-	Object.entries(dictionariesImport).map(([file, importFn]) => {
-		const [, letterCount, lang] = /\/(\d+)\/(\w+)\.json/.exec(file) ?? []
-		dictionaryLanguagesList.add(lang)
-		return [`${letterCount}-${lang}`, importFn]
-	})
-)
+import dictionariesList from '~/assets/dictionariesList.json'
 
 let initialDictionaryLanguage = navigator.language.split('-')[0]
-if (!dictionariesList[`${5}-${initialDictionaryLanguage}`]) {
+if (!dictionariesList.includes(initialDictionaryLanguage)) {
 	initialDictionaryLanguage = 'en'
 }
 
@@ -40,15 +30,14 @@ async function loadDictionary(letterCount: number, language?: string) {
 	lastDictLetterCount = letterCount
 	lastDictLang = language
 
-	if (!dictionariesList[`${letterCount}-${language}`]) {
-		throw Error(
-			`Dictionary not available: ${language} with ${letterCount} letters`
-		)
+	if (!dictionariesList.includes(language)) {
+		throw Error(`Dictionary not available: ${language}`)
 	}
 
 	COLUMNS.set(letterCount)
-	const newDict = (await dictionariesList[`${letterCount}-${language}`]())
-		.default
+	const newDict = await fetch(
+		`/dictionaries/${letterCount}/${language}.json`
+	).then((res) => res.json())
 	dictionary.set(newDict)
 	dictionaryLanguage.set(language)
 	recalculateKeyboardLetters()
@@ -81,7 +70,7 @@ const LanguageStore = {
 	dictionaryLanguage: convertWritableToReadable(dictionaryLanguage),
 	dictionary: convertWritableToReadable(dictionary),
 	keyboardLetters: convertWritableToReadable(keyboardLetters),
-	dictionaryLanguagesList,
+	dictionariesList,
 	getLanguageName,
 	generateRandomWord,
 	loadDictionary,

@@ -13,12 +13,20 @@ const MAX_THREADS = Math.max(1, Math.floor(os.cpus().length * 0.8))
 const limitThreads = pLimit(MAX_THREADS)
 
 const distDir = path.join(__dirname, '..', 'dist')
-const appSrcDictionariesDir = path.join(
+const appDictionariesDir = path.join(
+	__dirname,
+	'..',
+	'..',
+	'public',
+	'dictionaries'
+)
+const appLanguagesListFile = path.join(
 	__dirname,
 	'..',
 	'..',
 	'src',
-	'dictionaries'
+	'assets',
+	'dictionariesList.json'
 )
 const dictionariesSourceDir = path.join(
 	__dirname,
@@ -38,6 +46,7 @@ const allLangs = fs
 	.filter((locale) => locale !== 'rw') // Disable RW for now, since it seems to be stuck in an infinite loop
 	.filter((locale) => locale !== 'hu') // Disable HU for now, since it seems to consume too much memory and crash
 	.filter((locale) => locale !== 'ko') // Disable KO for now, since it seems to consume too much memory and crash
+	.filter((locale) => locale !== 'gl') // Disable GL for now, since it seems to consume too much memory and crash
 	.filter((locale) => locale !== 'hyw') // Disable HYW since it's repeated for HY
 
 async function main() {
@@ -90,8 +99,14 @@ async function main() {
 
 	console.log(`🤠 All languages processed!`)
 
-	await fse.remove(appSrcDictionariesDir)
-	await fse.copy(distDir, appSrcDictionariesDir)
+	await fse.remove(appDictionariesDir)
+	await fse.copy(distDir, appDictionariesDir)
+
+	const listOfLangs = (await fse.readdir(path.join(distDir, '5'))).map(
+		(langFile) => langFile.replace('.json', '')
+	)
+
+	await fse.writeFile(appLanguagesListFile, JSON.stringify(listOfLangs))
 
 	console.log(`🤠 Copied all dictionaries to app dictionaries folder`)
 }
