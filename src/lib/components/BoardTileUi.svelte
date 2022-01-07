@@ -31,8 +31,12 @@
 		font-size: 1.5rem;
 		width: 4rem;
 		height: 4rem;
-		max-width: min(7vh, 15vw);
-		max-height: min(7vh, 15vw);
+		--max-size: min(
+			calc((100vh - 25rem) / var(--num-rows)),
+			calc((100vw - 5rem) / var(--num-columns))
+		);
+		max-width: var(--max-size);
+		max-height: var(--max-size);
 		line-height: 1;
 		border-radius: 0.1rem;
 		font-weight: bold;

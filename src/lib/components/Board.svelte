@@ -14,7 +14,7 @@
 	<div
 		class="board"
 		dir={isLanguageRTL($lang) ? 'rtl' : 'ltr'}
-		style="--num-columns: {$COLUMNS};"
+		style="--num-columns: {$COLUMNS}; --num-rows: {$ROWS};"
 	>
 		{#each rowsArr as _, row}
 			{#each columnsArr as _, column}
