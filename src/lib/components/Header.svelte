@@ -18,6 +18,7 @@
 			>{$_('header.help')}</a
 		>
 		<span>{LanguageStore.getLanguageName($dictionaryLanguage)}</span>
+		<slot name="rightSideAfter" />
 	</div>
 </header>
 

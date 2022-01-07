@@ -5,6 +5,7 @@
 	import SelfManagedHelpModal from '~/lib/components/modals/SelfManagedHelpModal.svelte'
 	import { base64Encode } from '~/lib/helpers/base64ForUrls'
 	import { DAILY_WORD_LETTERS } from '~/lib/helpers/generateDailyRandomWord'
+	import generateLinkRandomWord from '~/lib/helpers/generateLinkRandomWord'
 	import getDailyWordInfo from '~/lib/helpers/getDailyWordInfo'
 	import { _ } from '~/lib/helpers/i18n'
 	import LanguageStore from '~/lib/stores/LanguageStore'
@@ -36,11 +37,11 @@
 			loadingRandom = false
 		}
 
-		const randomData: PlayRandomWordData = {
-			word: LanguageStore.generateRandomWord(),
-			lang,
-		}
-		navigate(`/play-random/${base64Encode(randomData)}`)
+		navigate(generateLinkRandomWord(LanguageStore.generateRandomWord(), lang))
+	}
+
+	async function playInfiniteClicked() {
+		navigate(`/play-infinite`)
 	}
 </script>
 
@@ -52,6 +53,8 @@
 			{lang}
 			on:change={(event) => (lang = event.detail)}
 		/>
+
+		<br />
 
 		<button
 			class="menu-link btn btn-fill btn-padding-l"
@@ -65,11 +68,15 @@
 			>
 		</button>
 
-		<!-- svelte-ignore a11y-invalid-attribute -->
 		<button
 			disabled={loadingRandom}
 			class="menu-link btn btn-fill btn-padding-l"
 			on:click={playRandomClicked}>{$_('home.play_random_word')}</button
+		>
+
+		<button
+			class="menu-link btn btn-fill btn-padding-l"
+			on:click={playInfiniteClicked}>{$_('home.play_infinite_mode')}</button
 		>
 
 		<SelfManagedHelpModal />

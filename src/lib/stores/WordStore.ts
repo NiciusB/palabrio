@@ -10,11 +10,13 @@ const word = writable('')
 const guess = writable('')
 const pastGuesses = writable([] as string[])
 
-function setWord(newWord: string) {
+function setWord(newWord: string, maxTries = 6) {
 	guess.set('')
 	pastGuesses.set([])
 	word.set(newWord)
 	gameState.set(GAME_STATES.IN_PROGRESS)
+	COLUMNS.set(newWord.length)
+	ROWS.set(maxTries)
 }
 
 function submitGuess() {

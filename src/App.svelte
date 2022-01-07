@@ -11,6 +11,8 @@
 	import PlayDaily from '~/lib/routes/PlayDaily.svelte'
 	import lastInteractionForFocusVisibility from '~/lib/helpers/lastInteractionForFocusVisibility'
 	import PlayRandom from '~/lib/routes/PlayRandom.svelte'
+	import PlayInfinite from '~/lib/routes/PlayInfinite.svelte'
+	import PlayRandomWithoutData from '~/lib/routes/PlayRandomWithoutData.svelte'
 
 	lastInteractionForFocusVisibility()
 	setupKeyboardListener()
@@ -26,7 +28,9 @@
 		</Route>
 		<Route path="play/:encodedWord" component={Play} />
 		<Route path="play-random/:encodedData" component={PlayRandom} />
+		<Route path="play-random" component={PlayRandomWithoutData} />
 		<Route path="play-daily" component={PlayDaily} />
+		<Route path="play-infinite" component={PlayInfinite} />
 	</Router>
 {:catch error}
 	<p style="color: red">{error.message}</p>
