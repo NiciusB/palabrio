@@ -1,4 +1,2 @@
-/src/dictionaries/7/he.json filter=lfs diff=lfs merge=lfs -text
-/src/dictionaries/8/tlh.json filter=lfs diff=lfs merge=lfs -text
 /public/dictionaries/7/he.json filter=lfs diff=lfs merge=lfs -text
 /public/dictionaries/8/tlh.json filter=lfs diff=lfs merge=lfs -text
