@@ -16,10 +16,11 @@ export default function generateInfiniteWord(round: number) {
 	} else if (round <= 4) {
 		// 3rd and 4th round
 		lettersCount = 5
+		maxTries = 7
 	} else if (round <= 10) {
-		lettersCount = randomFromArray([5, 6])
+		lettersCount = randomFromArray([5, 5, 5, 5, 5, 6])
 	} else {
-		lettersCount = randomFromArray([5, 6, 7])
+		lettersCount = randomFromArray([5, 5, 5, 5, 6, 7])
 	}
 
 	return LanguageStore.loadDictionary(lettersCount).then(() => {
