@@ -631,7 +631,7 @@ export default (function () {
 									(isDesktop
 										? 'https://api.whatsapp.com/send?text='
 										: 'whatsapp://send?text=') +
-										encodeURIComponent(text + '\n' + url)
+										encodeURIComponent((text ?? '') + '\n' + (url ?? ''))
 								)
 								break
 							}

@@ -26,5 +26,8 @@
   "season_day_short": "T{season} D{day}",
   "home.play_infinite_mode": "Jugar Modo Infinito",
   "game_finished.infinite.next": "Siguiente",
-  "game.infinite.round_n": "Ronda {n}"
+  "game.infinite.level_n": "Nivel {n}",
+  "home.code": "Código",
+  "home.licenses": "Licencias",
+  "action.back": "Atrás"
 }

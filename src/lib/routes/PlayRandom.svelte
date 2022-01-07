@@ -4,7 +4,7 @@
 	import { get } from 'svelte/store'
 	import Game from '~/lib/components/Game.svelte'
 	import GAME_STATES from '~/lib/enums/GAME_STATES'
-	import { base64Decode, base64Encode } from '~/lib/helpers/base64ForUrls'
+	import { base64Decode } from '~/lib/helpers/base64ForUrls'
 	import generateLinkRandomWord from '~/lib/helpers/generateLinkRandomWord'
 	import shareGameResult from '~/lib/helpers/shareGameResult'
 	import { gameState } from '~/lib/stores/GameStore'

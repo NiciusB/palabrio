@@ -28,5 +28,8 @@
   "season_day_short": "S{season} D{day}",
   "home.play_infinite_mode": "Play Infinite Mode",
   "game_finished.infinite.next": "Next",
-  "game.infinite.round_n": "Round {n}"
+  "game.infinite.level_n": "Level {n}",
+  "home.code": "Code",
+  "home.licenses": "Licenses",
+  "action.back": "Back"
 }

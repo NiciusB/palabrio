@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { navigate } from 'svelte-navigator'
+	import { Link, navigate } from 'svelte-navigator'
 	import { get } from 'svelte/store'
 	import DictionaryLanguageSelector from '~/lib/components/DictionaryLanguageSelector.svelte'
 	import SelfManagedHelpModal from '~/lib/components/modals/SelfManagedHelpModal.svelte'
@@ -82,9 +82,15 @@
 		<SelfManagedHelpModal />
 	</nav>
 
-	<a target="_blank" href="https://twitter.com/Balbonator"
-		>{$_('home.contact')}</a
-	>
+	<footer>
+		<a target="_blank" href="https://twitter.com/Balbonator"
+			>{$_('home.contact')}</a
+		>
+		<a target="_blank" href="https://github.com/NiciusB/palabrio"
+			>{$_('home.code')}</a
+		>
+		<Link to="/licenses">{$_('home.licenses')}</Link>
+	</footer>
 </main>
 
 <style lang="scss">
@@ -124,5 +130,12 @@
 		padding: 0.3rem 0.5rem;
 		box-shadow: 0.5px 0.5px 2px rgba(0, 0, 0, 0.036),
 			1.6px 1.6px 6.7px rgba(0, 0, 0, 0.054), 7px 7px 30px rgba(0, 0, 0, 0.09);
+	}
+
+	footer {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 1rem;
 	}
 </style>

@@ -5,6 +5,7 @@ import AlertStore from '~/lib/ui/alerts/stores/AlertStore'
 import { $_ } from '~/lib/helpers/i18n'
 import GAME_STATES from '~/lib/enums/GAME_STATES'
 import { COLUMNS, gameState, ROWS } from '~/lib/stores/GameStore'
+import telemetry from '~/lib/helpers/telemetry'
 
 const word = writable('')
 const guess = writable('')
@@ -17,6 +18,12 @@ function setWord(newWord: string, maxTries = 6) {
 	gameState.set(GAME_STATES.IN_PROGRESS)
 	COLUMNS.set(newWord.length)
 	ROWS.set(maxTries)
+
+	telemetry.logEvent('gameStarted', {
+		word,
+		maxTries,
+		lettersCount: newWord.length,
+	})
 }
 
 function submitGuess() {
@@ -46,8 +53,10 @@ function submitGuess() {
 
 	const lastGuess = get(pastGuesses)[get(pastGuesses).length - 1]
 	if (normalizeWord(lastGuess) === normalizeWord(get(word))) {
+		telemetry.logEvent('gameFinished', { won: true })
 		gameState.set(GAME_STATES.WON)
 	} else if (get(pastGuesses).length >= maxGuesses) {
+		telemetry.logEvent('gameFinished', { won: false })
 		gameState.set(GAME_STATES.LOST)
 	}
 

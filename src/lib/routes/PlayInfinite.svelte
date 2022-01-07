@@ -69,7 +69,7 @@
 		</svelte:fragment>
 
 		<span slot="gameHeader-rightSideAfter">
-			{$_('game.infinite.round_n', { values: { n: round } })}
+			{$_('game.infinite.level_n', { values: { n: round } })}
 		</span>
 	</Game>
 {/await}

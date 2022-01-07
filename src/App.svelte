@@ -13,6 +13,7 @@
 	import PlayRandom from '~/lib/routes/PlayRandom.svelte'
 	import PlayInfinite from '~/lib/routes/PlayInfinite.svelte'
 	import PlayRandomWithoutData from '~/lib/routes/PlayRandomWithoutData.svelte'
+	import Licenses from '~/lib/routes/Licenses.svelte'
 
 	lastInteractionForFocusVisibility()
 	setupKeyboardListener()
@@ -31,6 +32,7 @@
 		<Route path="play-random" component={PlayRandomWithoutData} />
 		<Route path="play-daily" component={PlayDaily} />
 		<Route path="play-infinite" component={PlayInfinite} />
+		<Route path="licenses" component={Licenses} />
 	</Router>
 {:catch error}
 	<p style="color: red">{error.message}</p>
