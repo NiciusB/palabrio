@@ -1,6 +1,6 @@
 # Palabrio
 
-Build with Typescript, Svelte, and Vite
+Built with Typescript, Svelte, and Vite
 
 ## Development
 
