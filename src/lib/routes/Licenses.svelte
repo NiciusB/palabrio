@@ -13,6 +13,11 @@
 	<br />
 	<br />
 
+	<h1>Definitions</h1>
+	<p>
+		<a href="https://en.wiktionary.org/wiki/Wiktionary:Main_Page">Wiktionary</a>
+	</p>
+
 	<h1>Dictionaries</h1>
 	<table>
 		<tbody>

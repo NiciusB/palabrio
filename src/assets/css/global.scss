@@ -18,7 +18,7 @@
 	--button-fill-gradient-bg: linear-gradient(0deg, #1db0ab, #48ccc7);
 	--button-text-color: hsl(0, 0%, 100%);
 
-	--alert-bg: hsla(240, 2%, 46%, 0.95);
+	--alert-bg: hsla(195, 2%, 35%, 0.95);
 	--alert-text-color: hsl(0, 0%, 100%);
 
 	--font-text: -apple-system, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
@@ -73,6 +73,7 @@ a {
 	cursor: pointer;
 	font-weight: bold;
 	min-width: 7rem;
+	width: 100%;
 	text-shadow: 0.5px 0 1px rgba(0, 0, 0, 0.5);
 
 	&:not(:last-child) {

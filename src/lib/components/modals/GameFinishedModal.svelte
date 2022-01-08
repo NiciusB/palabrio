@@ -5,7 +5,10 @@
 	import { _ } from '~/lib/helpers/i18n'
 	import Modal from '~/lib/components/modals/Modal.svelte'
 	import { Link } from 'svelte-navigator'
+	import WordDefinition from '~/lib/components/WordDefinition.svelte'
+	import LanguageStore from '~/lib/stores/LanguageStore'
 
+	$: lang = LanguageStore.dictionaryLanguage
 	$: word = WordStore.word
 </script>
 
@@ -24,5 +27,8 @@
 		<slot name="buttons" />
 
 		<Link class="btn btn-fill" to="/">{$_('game_finished.back_to_menu')}</Link>
+
+		<br />
+		<WordDefinition lang={$lang} word={$word} />
 	</Modal>
 {/if}

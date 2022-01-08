@@ -31,5 +31,7 @@
   "game.infinite.level_n": "Level {n}",
   "home.code": "Code",
   "home.licenses": "Licenses",
-  "action.back": "Back"
+  "action.back": "Back",
+  "word_definition.definition": "Definition",
+  "word_definition.unable_to_find_definition": "Unable to find definition"
 }
