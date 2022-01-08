@@ -20,7 +20,7 @@ function setWord(newWord: string, maxTries = 6) {
 	ROWS.set(maxTries)
 
 	telemetry.logEvent('gameStarted', {
-		word,
+		word: newWord,
 		maxTries,
 		lettersCount: newWord.length,
 	})
@@ -53,10 +53,20 @@ function submitGuess() {
 
 	const lastGuess = get(pastGuesses)[get(pastGuesses).length - 1]
 	if (normalizeWord(lastGuess) === normalizeWord(get(word))) {
-		telemetry.logEvent('gameFinished', { won: true })
+		telemetry.logEvent('gameFinished', {
+			won: true,
+			word: get(word),
+			maxTries: get(ROWS),
+			lettersCount: get(word).length,
+		})
 		gameState.set(GAME_STATES.WON)
 	} else if (get(pastGuesses).length >= maxGuesses) {
-		telemetry.logEvent('gameFinished', { won: false })
+		telemetry.logEvent('gameFinished', {
+			won: false,
+			word: get(word),
+			maxTries: get(ROWS),
+			lettersCount: get(word).length,
+		})
 		gameState.set(GAME_STATES.LOST)
 	}
 
