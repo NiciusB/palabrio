@@ -7,7 +7,11 @@ import {
 	randomFromArray,
 } from '~/lib/helpers/utils'
 import { COLUMNS } from '~/lib/stores/GameStore'
-import dictionariesList from '~/assets/dictionariesList.json'
+import _dictionariesMap from '~/assets/dictionariesMap.json'
+
+const dictionariesMap: {[key: string]: string[]}  = _dictionariesMap
+
+const dictionariesList = Object.keys(dictionariesMap)
 
 let initialDictionaryLanguage = navigator.language.split('-')[0]
 if (!dictionariesList.includes(initialDictionaryLanguage)) {
@@ -35,9 +39,16 @@ async function loadDictionary(letterCount: number, language?: string) {
 	}
 
 	COLUMNS.set(letterCount)
-	const newDict = await fetch(
-		`/dictionaries/${letterCount}/${language}.json`
-	).then((res) => res.json())
+
+	const dictionaryFiles: string[][] = await Promise.all(
+		dictionariesMap[language]
+		.filter(dictFile => dictFile.startsWith(`${letterCount}_`))
+		.map(dictFile => fetch(
+			`/dictionaries/${language}/${dictFile}.json`
+		).then((res) => res.json()))
+		)
+	const newDict = dictionaryFiles.flat()
+	
 	dictionary.set(newDict)
 	dictionaryLanguage.set(language)
 	recalculateKeyboardLetters()

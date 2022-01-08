@@ -20,13 +20,13 @@ const appDictionariesDir = path.join(
 	'public',
 	'dictionaries'
 )
-const appLanguagesListFile = path.join(
+const appDictionariesMapFile = path.join(
 	__dirname,
 	'..',
 	'..',
 	'src',
 	'assets',
-	'dictionariesList.json'
+	'dictionariesMap.json'
 )
 const dictionariesSourceDir = path.join(
 	__dirname,
@@ -102,11 +102,16 @@ async function main() {
 	await fse.remove(appDictionariesDir)
 	await fse.copy(distDir, appDictionariesDir)
 
-	const listOfLangs = (await fse.readdir(path.join(distDir, '5'))).map(
-		(langFile) => langFile.replace('.json', '')
-	)
+	const dictionariesMap = {}
+	const langs = await fse.readdir(distDir)
+	for(const lang of langs) {
+		const dictionaries = (await fse.readdir(path.join(distDir, lang))).map(
+			(langFile) => langFile.replace('.json', '')
+		)
+		dictionariesMap[lang] = dictionaries
+	}
 
-	await fse.writeFile(appLanguagesListFile, JSON.stringify(listOfLangs))
+	await fse.writeFile(appDictionariesMapFile, JSON.stringify(dictionariesMap))
 
 	console.log(`🤠 Copied all dictionaries to app dictionaries folder`)
 }

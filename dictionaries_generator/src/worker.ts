@@ -5,7 +5,7 @@ import { workerData } from 'worker_threads'
 
 const MIN_DICTIONARY_WORDS = 5000
 const MIN_LETTER_COUNT = 10
-const WORD_LENGTHS = [2, 3, 4, 5, 6, 7, 8, 9]
+const WORD_LENGTHS = [4, 5, 6, 7]
 const LETTER_BLACKLIST = new RegExp(
 	'[' +
 		'1234567890\\-+ \'"`’.,:;\\\\·!' +
@@ -98,19 +98,26 @@ function filterOutUncommonLetters(words: string[]): string[] {
 }
 
 function doesDictionaryFileAlreadyExist(lang: string) {
-	return WORD_LENGTHS.every((wordLength) => {
-		const dirPath = path.join(distDir, wordLength.toString())
-		const filePath = path.join(dirPath, lang + '.json')
-		return fs.existsSync(filePath)
-	})
+	return fs.existsSync(path.join(distDir, lang))
 }
 
+const WORDS_PER_PART = 1500000
 function saveDictionary(lang: string, words: string[], wordLength: number) {
-	const dirPath = path.join(distDir, wordLength.toString())
+	const dirPath = path.join(distDir, lang)
 
 	fs.mkdirSync(dirPath, { recursive: true })
-	const filePath = path.join(dirPath, lang + '.json')
-	fs.writeFileSync(filePath, JSON.stringify(words))
+
+	let part = 1
+	while(true) {
+		const slicedWords = words.slice((part - 1) * WORDS_PER_PART, part * WORDS_PER_PART)
+		if (slicedWords.length === 0) {
+			break
+		}
+
+		const filePath = path.join(dirPath, wordLength.toString() + '_part' + part + '.json')
+		fs.writeFileSync(filePath, JSON.stringify(slicedWords))
+		part++
+	}
 }
 
 function normalizeWord(string: string): string {

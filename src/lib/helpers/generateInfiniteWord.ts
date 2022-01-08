@@ -18,9 +18,9 @@ export default function generateInfiniteWord(round: number) {
 		lettersCount = 5
 		maxTries = 7
 	} else if (round <= 10) {
-		lettersCount = randomFromArray([5, 5, 5, 5, 5, 6])
+		lettersCount = randomFromArray([5, 5, 5, 5, 5, 5, 6])
 	} else {
-		lettersCount = randomFromArray([5, 5, 5, 5, 6, 7])
+		lettersCount = randomFromArray([5, 5, 5, 5, 5, 6, 7])
 	}
 
 	return LanguageStore.loadDictionary(lettersCount).then(() => {
