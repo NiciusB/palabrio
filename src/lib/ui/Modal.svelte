@@ -31,7 +31,7 @@
 	}
 </script>
 
-<Portal>
+<Portal target="#modals">
 	<div
 		bind:this={containerElement}
 		class="modal-container"

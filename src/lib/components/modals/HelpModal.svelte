@@ -4,7 +4,7 @@
 	import { createEventDispatcher } from 'svelte'
 	import BoardTileUi from '~/lib/components/BoardTileUi.svelte'
 	import LETTER_GUESS_STATES from '~/lib/enums/LETTER_GUESS_STATES'
-	import Modal from '~/lib/components/modals/Modal.svelte'
+	import Modal from '~/lib/ui/Modal.svelte'
 	import PalabrioLogo from '~/lib/components/PalabrioLogo.svelte'
 
 	const dispatch = createEventDispatcher()

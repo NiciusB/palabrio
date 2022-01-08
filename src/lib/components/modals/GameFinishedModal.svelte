@@ -3,7 +3,7 @@
 	import WordStore from '~/lib/stores/WordStore'
 	import { gameState } from '~/lib/stores/GameStore'
 	import { _ } from '~/lib/helpers/i18n'
-	import Modal from '~/lib/components/modals/Modal.svelte'
+	import Modal from '~/lib/ui/Modal.svelte'
 	import { Link } from 'svelte-navigator'
 	import WordDefinition from '~/lib/components/WordDefinition.svelte'
 	import LanguageStore from '~/lib/stores/LanguageStore'
