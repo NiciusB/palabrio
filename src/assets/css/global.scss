@@ -15,11 +15,20 @@
 	--key-text-color: hsl(204, 7%, 85%);
 
 	--button-outline-border: #27d6d9;
-	--button-fill-gradient-bg: linear-gradient(0deg, #1db0ab, #48ccc7);
-	--button-text-color: hsl(0, 0%, 100%);
+	--button-fill-gradient-bg: linear-gradient(
+		-70deg,
+		hsl(178, 55%, 42%) 12%,
+		hsl(178, 55%, 44%) 12%,
+		hsl(178, 55%, 44%) 35%,
+		hsl(179, 55%, 45%) 50%,
+		hsl(178, 55%, 44%) 65%,
+		hsl(178, 55%, 44%) 88%,
+		hsl(178, 55%, 42%) 88%
+	);
+	--button-text-color: hsl(250, 15%, 95%);
 
 	--alert-bg: hsla(195, 2%, 35%, 0.95);
-	--alert-text-color: hsl(0, 0%, 100%);
+	--alert-text-color: hsl(0, 0%, 99%);
 
 	--font-text: -apple-system, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
 		'Open Sans', 'Helvetica Neue', sans-serif;
@@ -68,13 +77,14 @@ a {
 .btn {
 	margin: 0 auto;
 	display: block;
-	padding: 0.5rem 1rem;
-	border-radius: 0.2rem;
+	padding: 0.75rem 1rem;
+	border-radius: 0.4rem;
 	cursor: pointer;
 	font-weight: bold;
 	min-width: 7rem;
 	width: 100%;
-	text-shadow: 0.5px 0 1px rgba(0, 0, 0, 0.5);
+	text-shadow: 0.5px 0 2px hsla(178, 5%, 10%, 0.7);
+	text-rendering: optimizeLegibility;
 
 	&:not(:last-child) {
 		margin-block-end: 1rem;
@@ -89,8 +99,8 @@ a {
 	&.btn-fill {
 		color: var(--button-text-color);
 		background: var(--button-fill-gradient-bg);
-		box-shadow: 0.5px 0.5px 2px rgba(0, 0, 0, 0.036),
-			1.6px 1.6px 6.7px rgba(0, 0, 0, 0.054), 7px 7px 30px rgba(0, 0, 0, 0.09);
+		box-shadow: 0.4px 0.4px 3px 2px hsla(178, 5%, 53%, 0.25),
+			1px 1px 5px hsla(178, 5%, 53%, 0.1);
 		border: 0;
 	}
 
@@ -109,9 +119,10 @@ select {
 	background: var(--button-fill-gradient-bg);
 	box-shadow: 0.5px 0.5px 2px rgba(0, 0, 0, 0.036),
 		1.6px 1.6px 6.7px rgba(0, 0, 0, 0.054), 7px 7px 30px rgba(0, 0, 0, 0.09);
-	text-shadow: 0.5px 0.5px 2px rgba(0, 0, 0, 0.5);
+	text-shadow: 0.5px 0 2px hsla(178, 5%, 10%, 0.7);
+	text-rendering: optimizeLegibility;
 	font-weight: bold;
-	padding: 0.5rem 1rem;
+	padding: 0.75rem 1rem;
 	border: 0;
-	border-radius: 0.2rem;
+	border-radius: 0.4rem;
 }
