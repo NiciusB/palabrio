@@ -101,7 +101,9 @@
 			100px 100px 80px rgba(0, 0, 0, 0.07);
 		border-radius: 0.5rem;
 		background: #282828;
-		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		height: calc(var(--vh, 1vh) * 30);
 	}
 
 	h3 {
@@ -110,9 +112,9 @@
 	}
 
 	iframe {
+		flex-grow: 1;
 		border: 0;
-		height: calc(var(--vh, 1vh) * 15);
 		width: 100%;
-		overflow: hidden;
+		height: 100px; /* Arbitrary number to prevent default height */
 	}
 </style>
